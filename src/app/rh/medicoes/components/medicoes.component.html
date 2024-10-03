@@ -1,0 +1,139 @@
+<po-container>
+  <div class="po-wrapper">
+    <div class="container mt-4">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>Status</th>
+          <th>Nº Contrato</th>
+          <th>Fornecedor</th>
+          <th>Cnpj</th>
+          <th>Medição</th>
+          <th>Vlr TT</th>
+        </tr>
+      </thead>
+      <tbody> 
+        <tr (click)="openModal(item)" *ngFor="let item of medicoes">
+          <td>{{ item.medicao }}</td>
+          <td>{{ item.contrato }}</td>
+          <td>{{ item.fornecedor }}</td>
+          <td>{{ item.cnpj }}</td>
+          <td>{{ item.totalMedicao }}</td>
+          <td>{{ item.valorContrato }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+</po-container> 
+  <po-modal p-size="auto" p-title="Aprovação de Medição" [p-primary-action]="confirm" [p-secondary-action]="close">
+    <div class="container">
+    <form #optionsForm="ngForm" class="row g-4">
+      <div class="col-md-4">
+        <label for="inputEmail4" class="form-label">Nº Contrato</label>
+        <input type="text" [(ngModel)]="selectedItem.contrato" name="contrato" class="form-control" id="inputEmail4" readonly>
+      </div>
+      <div class="col-md-8">
+        <label for="inputEmail4" class="form-label">Descrição</label>
+        <input type="text" [(ngModel)]="selectedItem.fornecedor" name="descricao" class="form-control" id="inputEmail4" readonly>
+      </div>
+        <div class="col-md-3">
+          <label for="inputEmail4" class="form-label">Valor</label>
+          <input type="text" [(ngModel)]="selectedItem.valorContrato" name="valor" class="form-control" id="inputEmail4" readonly>
+        </div>
+        <div class="col-md-2">
+          <label for="inputPassword4" class="form-label">Moeda</label>
+          <input type="text" value="BRL" name="m2" class="form-control" id="inputPassword4" readonly>
+        </div>
+        <div class="col-md-6">
+          <label for="inputPassword4" class="form-label">CNPJ</label>
+          <input type="text" [(ngModel)]="selectedItem.cnpj" name="cnpj" class="form-control" id="inputPassword4" readonly>
+        </div>
+        <div class="col-3">
+          <label for="inputAddress" class="form-label">Medição</label>
+          <input type="text" [(ngModel)]="selectedItem.totalMedicao" name="totalMedicao" class="form-control" id="inputAddress" readonly>
+        </div>
+        <div class="col-md-2">
+          <label for="inputPassword4" class="form-label">Moeda</label>
+          <input type="text" value="BRL" name="m2" class="form-control" id="inputPassword4" readonly>
+        </div>
+        <div class="col-md-2">
+          <label for="inputPassword4" class="form-label">%</label>
+          <input type="text" value="0" name="p3" class="form-control" id="inputPassword4" readonly>
+        </div>
+        <div class="col-md-4">
+        </div>
+        <div class="col-3">
+          <label for="inputAddress" class="form-label">Saldo</label>
+          <input type="text" [(ngModel)]="selectedItem.saldoPos" name="saldoPos" class="form-control" id="inputAddress" readonly>
+        </div>
+        <div class="col-md-2">
+          <label for="inputPassword4" class="form-label">Moeda</label>
+          <input type="text" value="BRL" name="m3" name="cnpj" class="form-control" id="inputPassword4" readonly>
+        </div>
+        <div class="col-md-2">
+          <label for="inputPassword4" class="form-label">%</label>
+          <input type="text" value="0" name="p3" class="form-control" id="inputPassword4" readonly>
+        </div>
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+          <label for="inputState" class="form-label">Gerenciadora?</label>
+          <select id="inputState" class="form-select" (change)="onGerenciadoraChange($event)">
+            <option selected disabled>Selecione</option>
+            <option value="true">Sim</option>
+            <option value="false">Não</option>
+          </select>
+        </div>
+        <div class="col-md-8" *ngIf="isGerenciadora">
+          <label for="inputPassword4" class="form-label">Nome da Gerenciadora</label>
+          <input type="text" name="gerenciadora" class="form-control" id="inputPassword4">
+        </div>
+        <div class="col-md-8" *ngIf="!isGerenciadora"></div>
+        <div class="col-md-4" >
+          <label for="inputState" class="form-label">NF Emitida?</label>
+          <select id="inputState" class="form-select" (change)="onNfEmitidaChange($event)">
+            <option selected disabled>Selecione</option>
+            <option value="true">Sim</option>
+            <option value="false">Não</option>
+          </select>
+        </div>
+        <div class="col-md-8" *ngIf="isNFEmitida">
+          <label for="inputPassword4" class="form-label">Justifique</label>
+          <textarea class="form-control" aria-label="With textarea"></textarea>
+        </div>
+        <div class="col-md-8" *ngIf="!isNFEmitida"></div>
+        <div class="col-md-6" >
+          <label for="inputState" class="form-label">Detalhes do Item Adquirido</label>
+          <textarea class="form-control" aria-label="With textarea"></textarea>
+        </div>
+        <div class="col-md-6" >
+          <label for="inputState" class="form-label">Parcelas definidas no Contrato</label>
+          <textarea class="form-control" aria-label="With textarea"></textarea>
+        </div>
+        <div class="col-md-6" >
+          <label for="inputState" class="form-label">Informações Relevantes</label>
+          <textarea class="form-control" aria-label="With textarea"></textarea>
+        </div>
+        <div class="col-md-6" >
+          <label for="formFile" class="form-label">Anexar relatório de evidências</label>
+          <input class="form-control" type="file" id="formFile">
+        </div>
+        <div class="col-md-8">
+          <label for="inputEmail4" class="form-label">Supervisor Responsavel</label>
+          <input type="text" name="contrato" class="form-control" id="inputEmail4">
+        </div>
+        <div class="col-md-4">
+          <label for="inputEmail4" class="form-label">Data Limite Aprovaçao</label>
+          <input type="date" name="descricao"  [value]="dataFormatada" class="form-control" id="inputEmail4">
+        </div>
+      </form>
+    </div>
+    <po-modal-footer [p-disabled-align]="false">
+      <po-button p-kind="danger"  p-label="Close" (click)="closeModal()">Close</po-button>
+      <po-button p-kind="primary" p-label="Confirm" (click)="processOrder()">Confirm</po-button>
+    </po-modal-footer>
+  </po-modal>
+

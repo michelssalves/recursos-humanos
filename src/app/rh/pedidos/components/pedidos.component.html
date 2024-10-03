@@ -1,0 +1,101 @@
+<po-page-dynamic-table #dynamicTable [p-auto-router]="true" [p-concat-filters]="true" [p-keep-filters]="true"
+  [p-actions]="actions" [p-actions-right]="actionsRight" [p-page-custom-actions]="pageCustomActions"
+  [p-table-custom-actions]="tableCustomActions" [p-fields]="fields" [p-service-api]="serviceApi"
+  [p-quick-search-width]="quickSearchWidth" [p-load]="onLoad.bind(this)">
+</po-page-dynamic-table>
+
+<po-modal #userDetailModal p-title="Detalhes do Pedido">
+  <po-dynamic-view [p-fields]="detailFields" [p-value]="detailedUser"> </po-dynamic-view>
+</po-modal>
+
+<po-modal #dependentsModal p-title="Editar Pedido">
+  <div class="po-row">
+    <div class="po-md-12">
+      <div class="po-md-2">
+        <po-input p-label="Emissão" [(ngModel)]="pedido.Data" p-readonly="true">
+        </po-input>
+      </div>
+      <div class="po-md-2">
+        <po-input p-label="Pedido" [(ngModel)]="pedido.Pedido" p-readonly="true">
+        </po-input>
+      </div>
+      <div class="po-md-2">
+        <po-input p-label="Item" [(ngModel)]="pedido.Item" p-readonly="true">
+        </po-input>
+      </div>
+      <div class="po-md-2">
+        <po-input p-label="Cod Condição" [(ngModel)]="pedido.Pagamento" (ngModelChange)="buscarDadosPagamento($event)">
+        </po-input>
+      </div>
+      <div class="po-md-4">
+        <po-input p-label="Descrição" [(ngModel)]="pedido.Condicao" p-readonly="true">
+        </po-input>
+      </div>
+    </div>
+    <div class="po-md-12">
+      <div class="po-md-4">
+        <po-input p-label="Código" [(ngModel)]="pedido.Codigo" (ngModelChange)="buscarDadosProduto($event)">
+        </po-input>
+      </div>
+
+      <div class="po-md-8">
+        <po-input p-label="Produto" [(ngModel)]="pedido.Produto" p-placeholder="Digite o nome do produto" p-readonly="true">
+        </po-input>
+      </div>
+    </div>
+    <div class="po-md-12">
+      <div class="po-md-2">
+        <po-input p-label="Un1A" [(ngModel)]="pedido.Un1A" p-readonly="true">
+        </po-input>
+      </div>
+      <div class="po-md-2">
+        <po-input p-label="Un2A" [(ngModel)]="pedido.Un2A" p-readonly="true">
+        </po-input>
+      </div>
+      <div class="po-md-2">
+        <po-input p-label="Qtde1A" [(ngModel)]="pedido.Qtde1A">
+        </po-input>
+      </div>
+      <div class="po-md-2">
+        <po-input p-label="Qtde2A" [(ngModel)]="pedido.Qtde2A" p-readonly="true">
+        </po-input>
+      </div>
+      <div class="po-md-2">
+        <po-input p-label="Preco" [(ngModel)]="pedido.Preco">
+        </po-input>
+      </div>
+      <div class="po-md-2">
+        <po-input p-label="Total" [(ngModel)]="pedido.R$">
+        </po-input>
+      </div>
+    </div>
+    <div class="po-md-12">
+      <div class="po-md-8">
+        <po-select
+        name="label"
+        p-label="Select Field Label"
+        [p-options]="optionsSelect"
+        p-label="string"
+        (ngModelChange)="buscarDadosFornecedor($event)"
+      >
+     </po-select>
+        <!-- <po-input type="number" p-label="Fornecedor" [(ngModel)]="pedido.Fornecedor" >
+        </po-input> -->
+      </div>
+      <div class="po-md-1">
+        <po-input p-label="Loja" [(ngModel)]="pedido.Loja">
+        </po-input>
+      </div>
+      <div class="po-md-9">
+        <po-input p-label="Razão Social" [(ngModel)]="pedido.rzSocial" p-readonly="true">
+        </po-input>
+      </div>
+    </div>
+  </div>
+</po-modal>
+
+
+
+<po-modal #dependentsModal p-title="Dependents">
+  <po-table [p-items]="dependents" [p-hide-table-search]="false"> </po-table>
+</po-modal>

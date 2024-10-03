@@ -1,0 +1,69 @@
+<div class="po-row">
+  <div class="po-row mb-4">
+    <div class="po-md-12 po-lg-12">
+      <po-container class="po-lg-4 ">
+        <div class="po-font-text-bold "></div>
+        <po-chart [p-series]="colunaItens" (p-series-click)="searchMore($event)" [p-type]="tipoCol">
+        </po-chart>
+      </po-container>
+      <po-container class="po-lg-4 ">
+        <div class="po-font-text-bold "></div>
+        <po-chart [p-series]="pizzaItens">
+        </po-chart>
+      </po-container>
+      <po-container class="po-lg-4 ">
+          <po-widget [p-height]="192" class="po-md-6 po-lg-6">
+            <div class="po-font-title po-text-center po-pt-5">{{ativos}}</div>
+            <div class="po-text-center">Ativos</div>
+          </po-widget>
+    
+          <po-widget [p-height]="192" class="po-md-6 po-lg-6">
+            <div class="po-font-title po-text-center po-pt-5">{{atestados}}</div>
+            <div class="po-text-center">Atestados</div>
+          </po-widget>
+          <po-widget [p-height]="192" class="po-md-6 po-lg-6">
+            <div class="po-font-title po-text-center po-pt-5">{{afastados}}</div>
+            <div class="po-text-center">Afastamentos</div>
+          </po-widget>
+    
+          <po-widget [p-height]="192" class="po-md-6 po-lg-6">
+            <div class="po-font-title po-text-center po-pt-5">{{ferias}}</div>
+            <div class="po-text-center">Ferias</div>
+          </po-widget>
+      </po-container>
+    </div>
+  </div>
+  <hr/>
+  <po-datepicker class="po-md-3" name="minDate" [(ngModel)]="minDate" p-clean p-label="Data" 
+  [p-max-date]="maxDate" [p-format]="format" (ngModelChange)="onDateChange($event)" (p-change)="changeDate($event)">
+  </po-datepicker>
+  <po-select class="po-md-3 " name="custo" p-label="Centro de Custo" p-required [p-options]="selectCusto"
+    (ngModel)="custo" (ngModelChange)="onCustoChange($event)" (p-change)="changeCusto($event)">
+  </po-select>
+  <po-select class="po-md-3" name="departamento" p-label="Departamento" p-required [p-options]="selectDepartamentos"
+    (ngModel)="departamento" (ngModelChange)="onDptoChange($event)" (p-change)="changeDpto($event)">
+  </po-select>
+  <po-select class="po-md-3" name="cargo" p-label="Cargo" p-required [p-options]="selectCargos" [ngModel]="cargo"
+    (ngModelChange)="onCargoChange($event)" (p-change)="changeCargo($event)">
+  </po-select>
+</div>
+<div class="po-row">
+  <div class="po-md-12 po-lg-12">
+    <po-container class="po-lg-4 po-mt-2">
+      <po-table p-container="shadow" [p-items]="custos" [p-hide-table-search]="true"> </po-table>
+    </po-container>
+    <po-container class="po-lg-4 po-mt-2">
+      <po-table p-container="shadow" [p-items]="departamentos" [p-hide-table-search]="true"> </po-table>
+    </po-container>
+    <po-container class="po-lg-4 po-mt-2">
+      <po-table p-container="shadow" [p-items]="cargos" [p-hide-table-search]="true"> </po-table>
+    </po-container>
+  </div>
+</div>
+<div class="po-row">
+  <div class="po-md-12 po-lg-12">
+    <po-container class="po-lg-12 po-mt-2">
+      <po-table p-container="shadow" [p-items]="funcionarios" [p-hide-table-search]="true"> </po-table>
+    </po-container>
+  </div>
+</div>

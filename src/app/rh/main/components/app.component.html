@@ -1,0 +1,18 @@
+<div class="po-wrapper">
+  <po-menu
+    class="menu"
+    [p-collapsed]="true"
+    [p-filter]="false"
+    [p-menus]="menus"
+    [p-service]="appService"
+    [p-automatic-toggle]="false"
+  >
+  <div *p-menu-header-template class="po-p-2 po-font-title sample-menu-header-text-color">
+    <img src="https://cdn.icon-icons.com/icons2/2148/PNG/512/totvs_icon_131953.png" alt="" class="responsive-img">
+  </div>  
+  </po-menu>
+  <po-page-default [p-breadcrumb]="breadcrumb">
+    <router-outlet></router-outlet>  
+  </po-page-default>
+  
+</div>

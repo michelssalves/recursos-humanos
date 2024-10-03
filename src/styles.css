@@ -1,0 +1,40 @@
+ol,
+ul {
+     padding-left: 0rem;
+}
+
+:root {
+     --color-brand-01-lighter: #cfd8dd;
+     --background-color-pressed: transparent;
+     --background-color-actived: transparent;
+     --color-brand-01-light: transparent;
+     --color-brand-01-lightest: transparent;
+     --color-action-pressed: #045b8f;
+     --color-brand-01-darkest: #505f69;
+     --color-brand-01-dark: #045b8f;
+     --color-current-page: #238ac7;
+     --color-action-default: #045b8f;
+}
+
+.po-menu,
+.po-menu-item,
+.po-menu-collapse-button-icon {
+     color: #045b8f;
+}
+
+.po-menu-mobile {
+     color: #045b8f;
+
+}
+
+.po-breadcrumb-item-activate {
+     color: var(--color-current-page);
+     white-space: nowrap;
+     font-weight: bold;
+     color: #507085;
+}
+
+.po-page-content {
+     padding: 0px 40px 0px 0px;
+     margin-right: 15px;
+ }

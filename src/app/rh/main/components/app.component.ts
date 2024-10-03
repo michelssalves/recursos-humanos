@@ -4,7 +4,7 @@ import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/ro
 import { FormsModule, ReactiveFormsModule,  } from '@angular/forms';
 import { filter } from 'rxjs/operators';
 import { AppService } from '../services';
-//import { ProAppConfigService, ProJsToAdvplService, ProtheusLibCoreModule } from '@totvs/protheus-lib-core';
+import { ProAppConfigService, ProJsToAdvplService, ProtheusLibCoreModule } from '@totvs/protheus-lib-core';
 import {
   PoContainerModule, 
   PoWidgetModule, 
@@ -50,20 +50,20 @@ export class AppComponent {
   menuItemSelected: string = '';
   menus: Array<PoMenuItem> = [
     { label: 'Dashboard', action: this.printMenuAction.bind(this), icon: 'po-icon po-icon-chart-columns', link: 'dashboard', shortLabel: 'dashboard' },
-    { label: 'Fechar App', action: '', icon: 'po-icon po-icon-close', link: '', shortLabel: 'closeApp' },
+    { label: 'Fechar App', action: this.closeApp.bind(this), icon: 'po-icon po-icon-close', link: '', shortLabel: 'closeApp' },
    
   ];
 
   constructor(
-    // private proAppConfigService: ProAppConfigService,
+    private proAppConfigService: ProAppConfigService,
     public appService: AppService,
     private router: Router,
     private route: ActivatedRoute
   ) {
     // Carrega a configuração do aplicativo se não estiver dentro do Protheus
-    // if (!this.proAppConfigService.insideProtheus()) {
-    //   this.proAppConfigService.loadAppConfig(); 
-    // }
+    if (!this.proAppConfigService.insideProtheus()) {
+      this.proAppConfigService.loadAppConfig(); 
+    }
   }
   printMenuAction(menu: PoMenuItem) {
     this.menuItemSelected = menu.label;
@@ -71,7 +71,13 @@ export class AppComponent {
   public breadcrumb: PoBreadcrumb = {
     items: [{ label: 'Home', link: '/home' }]
   };
-
+  private closeApp() {
+    if (this.proAppConfigService.insideProtheus()) {
+      this.proAppConfigService.callAppClose();
+    } else {
+      alert('O App não está sendo executado dentro do Protheus.');
+    }
+  }
 
   ngOnInit(): void {
     this.router.events

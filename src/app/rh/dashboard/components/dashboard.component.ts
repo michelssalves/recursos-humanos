@@ -3,11 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { PoChartType, PoChartOptions, PoChartSerie, PoTableModule, PoContainerModule, PoWidgetModule, PoChartModule, PoSelectOption, PoDisclaimerGroupModule, PoFieldModule, PoMultiselectOption, PoDialogService} from '@po-ui/ng-components';
 import { DashboardService } from '../services';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [PoTableModule, PoContainerModule, PoWidgetModule, PoChartModule,PoDisclaimerGroupModule, PoFieldModule, FormsModule],
+  imports: [PoTableModule, PoContainerModule, PoWidgetModule, PoChartModule,PoDisclaimerGroupModule, PoFieldModule, FormsModule, CommonModule],
 
 schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [PoDialogService, DashboardService],

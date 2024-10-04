@@ -2,7 +2,9 @@
   <div class="po-row mb-4">
     <div class="po-md-12 po-lg-12">
       <po-container class="po-lg-4 ">
-        <div class="po-font-text-bold po-text-center">Delta: {{delta}}</div>
+        <div [ngClass]="{'positivo': delta > 0, 'negativo': delta < 0}" class="po-font-text-bold po-text-center">
+          Delta: {{delta}}
+        </div>
         <po-chart [p-series]="colunaItens" (p-series-click)="searchMore($event)" [p-type]="tipoCol">
         </po-chart>
       </po-container>

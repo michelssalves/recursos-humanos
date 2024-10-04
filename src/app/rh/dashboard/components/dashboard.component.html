@@ -2,7 +2,7 @@
   <div class="po-row mb-4">
     <div class="po-md-12 po-lg-12">
       <po-container class="po-lg-4 ">
-        <div class="po-font-text-bold "></div>
+        <div class="po-font-text-bold po-text-center">Delta: {{delta}}</div>
         <po-chart [p-series]="colunaItens" (p-series-click)="searchMore($event)" [p-type]="tipoCol">
         </po-chart>
       </po-container>
@@ -11,12 +11,13 @@
         <po-chart [p-series]="pizzaItens">
         </po-chart>
       </po-container>
-      <po-container class="po-lg-4 ">
-          <po-widget [p-height]="192" class="po-md-6 po-lg-6">
+      <po-container class="po-lg-4 " >
+        <div class="amor">
+          <po-widget  class="teste" [p-height]="192" [p-primary]="false" p-background="#2C85C8" class="po-md-6 po-lg-6" >
             <div class="po-font-title po-text-center po-pt-5">{{ativos}}</div>
             <div class="po-text-center">Ativos</div>
           </po-widget>
-    
+        </div>
           <po-widget [p-height]="192" class="po-md-6 po-lg-6">
             <div class="po-font-title po-text-center po-pt-5">{{atestados}}</div>
             <div class="po-text-center">Atestados</div>

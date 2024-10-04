@@ -15,7 +15,7 @@ schemas: [CUSTOM_ELEMENTS_SCHEMA],
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent  {
-
+  delta = 0
   ativos = 0
   atestados = 0
   afastados = 0
@@ -28,8 +28,8 @@ export class DashboardComponent  {
   custo: string = ''
   departamento: string = ''
   cargo: string = ''
-  //dataIni: string | Date = this.dataAtual()
-  dataIni: string | Date = '20240909'
+  dataIni: string | Date = this.dataAtual()
+  //dataIni: string | Date = '20240909'
   mes: string = this.mesAtual()
   ano: string = this.anoAtual()
   tipoCol: PoChartType = PoChartType.Column;
@@ -125,17 +125,19 @@ export class DashboardComponent  {
         this.departamentos = response.tabela2;
         this.cargos = response.tabela3;
         this.funcionarios = response.tabela4;
+        console.log(response.afastamento[0].data)
 
         let ferias = response.ferias?.[0]?.data ?? 0;
+        let afastado = response.afastamento?.[0]?.data ?? 0;
         let atestado = response.atestado?.[0]?.data ?? 0;
-        let afastado = response.afastado?.[0]?.data ?? 0;
-        console.log(ferias)
+        let orcamento = response.orcamento?.[0]?.orcamento ?? 0;
         let quantidadeFuncionarios = 0;
         if (this.funcionarios && this.funcionarios.length) {
           quantidadeFuncionarios = this.funcionarios.filter(item => Object.keys(item).length > 0).length;
         }
+        this.delta = orcamento - quantidadeFuncionarios
         this.colunaItens = [
-          { label: 'Orçado', data: [this.orcado]},
+          { label: 'Orçado', data: [orcamento]},
           { label: 'Funcionarios', data: [quantidadeFuncionarios ] }
         ]
 
@@ -147,10 +149,10 @@ export class DashboardComponent  {
         this.ferias = ferias
 
          this.pizzaItens= [
-          { label: 'Atestado', data: atestado },
-          { label: 'Afastados', data: afastado },
-          { label: 'Ativos', data: ativos },
-          { label: 'Ferias', data: ferias},
+          { label: 'Atestado', data: atestado, color: 'po-color-08' },
+          { label: 'Afastados', data: afastado, color: 'po-color-07' },
+          { label: 'Ativos', data: ativos, color:  'po-color-10' },
+          { label: 'Ferias', data: ferias, color: 'po-color-02' },
         ]
        
       },

@@ -117,6 +117,10 @@ export class DashboardComponent  {
     const data = new Date();
     return (data.getMonth() + 1).toString().padStart(2, '0');
   }
+  getDeltaTitle() {
+    return this.delta > 0 ? `🔼 Delta: ${this.delta}` : `🔽 Delta: ${this.delta}`;
+  }
+  
   getTable(){
 
     this.dashboardService.getTable(this.dataIni, this.custo, this.departamento, this.cargo).subscribe(

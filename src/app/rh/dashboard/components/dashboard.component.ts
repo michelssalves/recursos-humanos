@@ -1,7 +1,7 @@
 import { Component, NgModule  } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { PoChartType, PoChartOptions, PoChartSerie, PoTableModule, PoContainerModule, PoWidgetModule, PoChartModule, PoSelectOption, PoDisclaimerGroupModule, PoFieldModule, PoMultiselectOption, PoDialogService} from '@po-ui/ng-components';
+import { PoChartType, PoChartOptions,PoChartOptionsExtended, PoChartSerie, PoTableModule, PoContainerModule, PoWidgetModule, PoChartModule, PoSelectOption, PoDisclaimerGroupModule, PoFieldModule, PoMultiselectOption, PoDialogService, PoMultiselectFilterMode} from '@po-ui/ng-components';
 import { DashboardService } from '../services';
 import { CommonModule } from '@angular/common';
 
@@ -30,7 +30,6 @@ export class DashboardComponent  {
   departamento: string = ''
   cargo: string = ''
   dataIni: string | Date = this.dataAtual()
-  //dataIni: string | Date = '20240909'
   mes: string = this.mesAtual()
   ano: string = this.anoAtual()
   tipoCol: PoChartType = PoChartType.Column;
@@ -43,23 +42,36 @@ export class DashboardComponent  {
   departamentos: Array<any> = [];
   cargos: Array<any> = [];
   funcionarios: Array<any> = [];
-  selectCusto: Array<PoSelectOption> = []
-  selectDepartamentos: Array<PoSelectOption> = []
-  selectCargos: Array<PoSelectOption> = []
+  //selectCusto: Array<PoSelectOption> = []
+  selectCusto: Array<PoMultiselectOption> = []
+  //selectDepartamentos: Array<PoSelectOption> = []
+  selectDepartamentos: Array<PoMultiselectOption> = []
+  //selectCargos: Array<PoSelectOption> = []
+  selectCargos: Array<PoMultiselectOption> = []
+  startDate: string = <any>new Date();
 
+  filterMode = PoMultiselectFilterMode.contains;
+
+  selectedItems = [];
   
   constructor(
     private poAlert: PoDialogService,
     private dashboardService: DashboardService,
   ) {}
-
+  
+  chartOptions: PoChartOptions = {
+    legend: true,
+    // axis: {
+    //   minRange: 0,
+    //   maxRange: 100,
+    //   gridLines: 7,
+    // },
+  };
   ngOnInit() {
-
     this.getTable()
     this.getCustos()
     this.getDpdto()
     this.getCargos()
-    console.log(this.mesAtual())
    
   } 
   searchMore(event: any) {
@@ -69,7 +81,6 @@ export class DashboardComponent  {
     this.dashboardService.getCustos(this.custo).subscribe(
       response => {
         this.selectCusto = response.objects;
-        console.log(this.custo)
       },
       error => {
         console.error('Erro ao obter dados:', error);
@@ -91,7 +102,6 @@ export class DashboardComponent  {
     this.dashboardService.getCargos(this.custo, this.departamento, this.cargo).subscribe(
       response => {
         this.selectCargos = response.objects;
-        //console.log(this.pizzaItens)
       },
       error => {
         console.error('Erro ao obter dados:', error);
@@ -130,7 +140,6 @@ export class DashboardComponent  {
         this.departamentos = response.tabela2;
         this.cargos = response.tabela3;
         this.funcionarios = response.tabela4;
-        console.log(response.afastamento[0].data)
 
         let ferias = response.ferias?.[0]?.data ?? 0;
         let afastado = response.afastamento?.[0]?.data ?? 0;
@@ -141,13 +150,12 @@ export class DashboardComponent  {
           quantidadeFuncionarios = this.funcionarios.filter(item => Object.keys(item).length > 0).length;
         }
         this.delta = orcamento - quantidadeFuncionarios
+        let ativos =  quantidadeFuncionarios - (ferias + atestado + afastado)
+        let funcionarios =  ativos +  atestado + ferias
         this.colunaItens = [
           { label: 'Orçado', data: [orcamento]},
-          { label: 'Funcionarios', data: [quantidadeFuncionarios ] }
+          { label: 'Funcionarios', data: [funcionarios] }
         ]
-
-        let ativos =  quantidadeFuncionarios - (ferias + atestado + afastado)
-
         this.ativos = ativos
         this.atestados = atestado
         this.afastados = afastado
@@ -168,23 +176,16 @@ export class DashboardComponent  {
   }
   changeMes(event: any) {
 
-    //this.getPizza()
     this.getTable()
-    //this.getCols()
-
   }
   changeAno(event: any) {
 
-    //this.getPizza()
     this.getTable()
-   // this.getCols()
 
   }
   changeProduto(event: any) {
 
-    //this.getPizza()
     this.getTable()
-    //this.getCols()
 
   }
   changeDate(event: any) {
@@ -200,11 +201,14 @@ export class DashboardComponent  {
 
     this.getDpdto()
     this.getTable()
+
+    if (this.selectedItems.length > 1) {
+      this.selectedItems = [this.selectedItems[1]]; // Mantém apenas o último selecionado
+    }
   
   }
   changeDpto(event: any) {
-
-    //this.getPizza()
+    
     this.cargo = ''
     this.selectCargos = []
     this.getTable()
@@ -221,6 +225,7 @@ export class DashboardComponent  {
   }
   onCustoChange(value: any) {
     this.custo = value
+    
   }
   onDptoChange(value: any) {
     this.departamento = value
@@ -228,35 +233,5 @@ export class DashboardComponent  {
   onCargoChange(value: any) {
     this.cargo = value;  
   }
-
-  consumptionPerCapitaOptions: PoChartOptions = {
-    axis: {
-      maxRange: 100,
-      gridLines: 2
-    }
-  };
-
-  chartAreaOptions: PoChartOptions = {
-    axis: {
-      maxRange: 700,
-      gridLines: 8
-    }
-  };
-
-  options: PoChartOptions = {
-    axis: {
-      minRange: 0,
-      maxRange: 40,
-      gridLines: 5
-    }
-  };
-
-  optionsColumn: PoChartOptions = {
-    axis: {
-      minRange: -20,
-      maxRange: 100,
-      gridLines: 7
-    }
-  };
 
 }

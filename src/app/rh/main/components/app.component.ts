@@ -49,8 +49,8 @@ export class AppComponent {
   ];
   menuItemSelected: string = '';
   menus: Array<PoMenuItem> = [
-    { label: 'Dashboard', action: this.printMenuAction.bind(this), icon: 'po-icon po-icon-chart-columns', link: 'dashboard', shortLabel: 'dashboard' },
-    { label: 'Fechar App', action: this.closeApp.bind(this), icon: 'po-icon po-icon-close', link: '', shortLabel: 'closeApp' },
+    { label: 'Dashboard', action: this.printMenuAction.bind(this), icon: 'po-icon po-icon-chart-columns', link: 'dashboard', shortLabel: 'Dashboard' },
+    { label: 'Sair', action: this.closeApp.bind(this), icon: 'po-icon ph ph-sign-out', link: '', shortLabel: 'Sair' },
    
   ];
 

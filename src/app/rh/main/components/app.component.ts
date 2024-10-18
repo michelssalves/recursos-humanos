@@ -4,7 +4,7 @@ import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/ro
 import { FormsModule, ReactiveFormsModule,  } from '@angular/forms';
 import { filter } from 'rxjs/operators';
 import { AppService } from '../services';
-//mport { ProAppConfigService, ProJsToAdvplService, ProtheusLibCoreModule } from '@totvs/protheus-lib-core';
+//import { ProAppConfigService, ProJsToAdvplService, ProtheusLibCoreModule } from '@totvs/protheus-lib-core';
 import {
   PoContainerModule, 
   PoWidgetModule, 

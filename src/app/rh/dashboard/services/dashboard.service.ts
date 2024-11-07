@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class DashboardService {
 
-  private apiUrl = 'http://vhwin1065:9023/rest/zWSDashRh';
+  private apiUrl = 'http://vhwin1065:9323/rest/zWSDashRh';
 
   constructor(private http: HttpClient) { }
 
@@ -23,7 +23,7 @@ export class DashboardService {
     const url = `${this.apiUrl}/get_cargo?custo=${custo}&departamento=${departamento}&cargo=${cargo}`;
     return this.http.get<any>(url);
   }
-  getTable(dataIni: string |Date, custo: string, departamento: string, cargo: string): Observable<any> {
+  getTable(dataIni: string | Date, custo: string, departamento: string, cargo: string): Observable<any> {
     const url = `${this.apiUrl}/get_table?dataIni=${dataIni}&custo=${custo}&departamento=${departamento}&cargo=${cargo}`;
     return this.http.get<any>(url);
   }

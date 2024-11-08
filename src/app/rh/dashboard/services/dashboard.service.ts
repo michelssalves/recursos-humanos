@@ -15,6 +15,10 @@ export class DashboardService {
     const url = `${this.apiUrl}/get_custo?custo=${custo}`;
     return this.http.get<any>(url);
   }
+  getCodigos(): Observable<any> {
+    const url = `${this.apiUrl}/get_codigos`;
+    return this.http.get<any>(url);
+  }
   getDpdto(custo: string, departamento: string, cargo: string): Observable<any> {
     const url = `${this.apiUrl}/get_departamento?custo=${custo}&departamento=${departamento}&cargo=${cargo}`;
     return this.http.get<any>(url);

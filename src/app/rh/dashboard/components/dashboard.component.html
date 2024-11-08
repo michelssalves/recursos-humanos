@@ -3,12 +3,15 @@
     <po-datepicker class="po-md-2" name="minDate" [(ngModel)]="minDate" p-clean p-label="Data" [p-max-date]="maxDate"
       [p-format]="format" (p-change)="changeDate($event)" [(ngModel)]="startDate">
     </po-datepicker>
-    <po-datepicker class="po-md-2" name="codigoDir" p-label="Cod. Dir" [p-format]="format">
-    </po-datepicker>
-    <po-multiselect class="po-md-2" name="codigoArea" p-label="Cod.Area" [p-hide-select-all]="true">
+    <po-multiselect class="po-md-2" name="codigoDir" p-label="Cod. Dir" [p-options]="diretores" [(ngModel)]="diretor"
+      (ngModelChange)="onDiretorChange($event)" (p-change)="changeDiretor($event)" [p-filter-mode]="filterMode"
+      [p-hide-select-all]="true">
     </po-multiselect>
-    <po-multiselect class="po-md-2 " name="departamento" p-label="Departamento" [p-options]="selectDepartamentos"
-      (ngModel)="departamento" (ngModelChange)="onDptoChange($event)" (p-change)="changeDpto($event)"
+    <po-multiselect class="po-md-2" name="codigoArea" p-label="Cod.Area" [p-options]="areas" [(ngModel)]="area"
+      [p-hide-select-all]="true">
+    </po-multiselect>
+    <po-multiselect class="po-md-2 " name="departamento" p-label="Departamento" [p-options]="departamentos2"
+      [(ngModel)]="departamento2" (ngModelChange)="onDptoChange($event)" (p-change)="changeDpto($event)"
       [p-filter-mode]="filterMode" [p-hide-select-all]="true">
     </po-multiselect>
     <po-multiselect class="po-md-2 " name="funcao" p-label="Função" [p-options]="selectCargos" [ngModel]="cargo"

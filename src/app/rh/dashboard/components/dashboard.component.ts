@@ -27,6 +27,9 @@ export class DashboardComponent  {
   countFunc = 0
   orcado = 30
   custo: string = ''
+  diretor: string = ''
+  area: string = ''
+  departamento2: string = ''
   departamento: string = ''
   cargo: string = ''
   dataIni: string | Date = this.dataAtual()
@@ -42,6 +45,9 @@ export class DashboardComponent  {
   departamentos: Array<any> = [];
   cargos: Array<any> = [];
   funcionarios: Array<any> = [];
+  departamentos2: Array<PoMultiselectOption> = []
+  areas: Array<PoMultiselectOption> = []
+  diretores: Array<PoMultiselectOption> = []
   //selectCusto: Array<PoSelectOption> = []
   selectCusto: Array<PoMultiselectOption> = []
   //selectDepartamentos: Array<PoSelectOption> = []
@@ -72,6 +78,7 @@ export class DashboardComponent  {
     this.getCustos()
     this.getDpdto()
     this.getCargos()
+    this.getCodigos()
    
   } 
   searchMore(event: any) {
@@ -81,6 +88,19 @@ export class DashboardComponent  {
     this.dashboardService.getCustos(this.custo).subscribe(
       response => {
         this.selectCusto = response.objects;
+      },
+      error => {
+        console.error('Erro ao obter dados:', error);
+      }
+    );
+  }
+    getCodigos(){
+    this.dashboardService.getCodigos().subscribe(
+      response => {
+        this.diretores = response.objects.diretorio;
+        this.areas = response.objects.area;
+        this.departamentos2 = response.objects.departamento;
+        console.log( this.departamentos2)
       },
       error => {
         console.error('Erro ao obter dados:', error);
@@ -218,6 +238,9 @@ export class DashboardComponent  {
   changeCargo(event: any) {
     this.getTable()
   }
+    changeDiretor(event: any) {
+    this.getTable()
+  }
   onDateChange(value: Date | string) {
     if (typeof value === 'string') {
       this.dataIni = value.replace(/-/g, '');
@@ -225,6 +248,18 @@ export class DashboardComponent  {
   }
   onCustoChange(value: any) {
     this.custo = value
+    
+  }
+    onDiretorChange(value: any) {
+    this.diretor = value
+    
+  }
+    onAreaChange(value: any) {
+    this.area = value
+    
+  }
+    onDepartamento2Change(value: any) {
+    this.departamento2 = value
     
   }
   onDptoChange(value: any) {

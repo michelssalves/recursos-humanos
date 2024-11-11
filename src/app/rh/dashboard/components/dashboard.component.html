@@ -3,19 +3,15 @@
     <po-datepicker class="po-md-2" name="minDate" [(ngModel)]="minDate" p-clean p-label="Data" [p-max-date]="maxDate"
       [p-format]="format" (p-change)="changeDate($event)" [(ngModel)]="startDate">
     </po-datepicker>
-    <po-multiselect class="po-md-2" name="codigoDir" p-label="Cod. Dir" [p-options]="diretores" [(ngModel)]="diretor"
+    <po-multiselect class="po-md-2" name="codDir" p-label="Cod. Dir" [p-options]="selectDiretores" [(ngModel)]="codDir"
       (ngModelChange)="onDiretorChange($event)" (p-change)="changeDiretor($event)" [p-filter-mode]="filterMode"
       [p-hide-select-all]="true">
     </po-multiselect>
-    <po-multiselect class="po-md-2" name="codigoArea" p-label="Cod.Area" [p-options]="areas" [(ngModel)]="area"
-      [p-hide-select-all]="true">
+    <po-multiselect class="po-md-2" name="codArea" p-label="Cod.Area" [p-options]="selectAreas" [(ngModel)]="codArea"
+      (ngModelChange)="onAreaChange($event)" (p-change)="changeArea($event)" [p-hide-select-all]="true">
     </po-multiselect>
-    <po-multiselect class="po-md-2 " name="departamento" p-label="Departamento" [p-options]="departamentos2"
-      [(ngModel)]="departamento2" (ngModelChange)="onDptoChange($event)" (p-change)="changeDpto($event)"
-      [p-filter-mode]="filterMode" [p-hide-select-all]="true">
-    </po-multiselect>
-    <po-multiselect class="po-md-2 " name="funcao" p-label="Função" [p-options]="selectCargos" [ngModel]="cargo"
-      (ngModelChange)="onCargoChange($event)" (p-change)="changeCargo($event)" [p-filter-mode]="filterMode"
+    <po-multiselect class="po-md-2 " name="codDep" p-label="Cod.Dep" [p-options]="selectDepartamentos"
+      [(ngModel)]="codDep" (ngModelChange)="onDptoChange($event)" (p-change)="changeDpto($event)"
       [p-hide-select-all]="true">
     </po-multiselect>
     <po-multiselect class="po-md-2" name="custo" p-label="Centro de Custo" [p-options]="selectCusto" [(ngModel)]="custo"
@@ -27,14 +23,14 @@
 <div class="po-row">
   <div class="po-md-12 po-lg-12">
     <po-container class="po-lg-4 po-mt-2">
-      <po-table [p-height]="150" p-container="shadow" [p-hide-columns-manager]="true" [p-items]="custos"></po-table>
+      <po-table [p-height]="150" p-container="shadow" [p-hide-columns-manager]="true" [p-items]="diretores"></po-table>
+    </po-container>
+    <po-container class="po-lg-4 po-mt-2">
+      <po-table [p-height]="150" p-container="shadow" [p-hide-columns-manager]="true" [p-items]="areas"></po-table>
     </po-container>
     <po-container class="po-lg-4 po-mt-2">
       <po-table [p-height]="150" p-container="shadow" [p-hide-columns-manager]="true"
         [p-items]="departamentos"></po-table>
-    </po-container>
-    <po-container class="po-lg-4 po-mt-2">
-      <po-table [p-height]="150" p-container="shadow" [p-hide-columns-manager]="true" [p-items]="cargos"></po-table>
     </po-container>
   </div>
 </div>

@@ -1,21 +1,21 @@
-import { Component, NgModule  } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { PoChartType, PoChartOptions, PoChartSerie, PoTableModule, PoContainerModule, PoWidgetModule, PoChartModule, PoSelectOption, PoDisclaimerGroupModule, PoFieldModule, PoMultiselectOption, PoDialogService, PoMultiselectFilterMode} from '@po-ui/ng-components';
+import { PoChartType, PoChartOptions, PoChartSerie, PoTableModule, PoContainerModule, PoWidgetModule, PoChartModule, PoSelectOption, PoDisclaimerGroupModule, PoFieldModule, PoMultiselectOption, PoDialogService, PoMultiselectFilterMode } from '@po-ui/ng-components';
 import { DashboardService } from '../services';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [PoTableModule, PoContainerModule, PoWidgetModule, PoChartModule,PoDisclaimerGroupModule, PoFieldModule, FormsModule, CommonModule],
+  imports: [PoTableModule, PoContainerModule, PoWidgetModule, PoChartModule, PoDisclaimerGroupModule, PoFieldModule, FormsModule, CommonModule],
 
-schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [PoDialogService, DashboardService],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent  {
+export class DashboardComponent {
   delta = 0
   ativos = 0
   atestados = 0
@@ -27,9 +27,9 @@ export class DashboardComponent  {
   countFunc = 0
   orcado = 30
   custo: string = ''
-  diretor: string = ''
-  area: string = ''
-  departamento2: string = ''
+  codDir: string = ''
+  codArea: string = ''
+  codDep: string = ''
   departamento: string = ''
   cargo: string = ''
   dataIni: string | Date = this.dataAtual()
@@ -41,17 +41,20 @@ export class DashboardComponent  {
   categoriesColumn: Array<any> = [];
   pizzaItens: Array<PoChartSerie> = []
   colunaItens: Array<PoChartSerie> = []
-  custos: Array<any> = [];
+  diretores: Array<any> = [];
+  areas: Array<any> = [];
   departamentos: Array<any> = [];
+  custos: Array<any> = [];
   cargos: Array<any> = [];
   funcionarios: Array<any> = [];
-  departamentos2: Array<PoMultiselectOption> = []
-  areas: Array<PoMultiselectOption> = []
-  diretores: Array<PoMultiselectOption> = []
+
+  selectAreas: Array<PoMultiselectOption> = []
+  selectDiretores: Array<PoMultiselectOption> = []
+  selectDepartamentos: Array<PoMultiselectOption> = []
   //selectCusto: Array<PoSelectOption> = []
   selectCusto: Array<PoMultiselectOption> = []
   //selectDepartamentos: Array<PoSelectOption> = []
-  selectDepartamentos: Array<PoMultiselectOption> = []
+
   //selectCargos: Array<PoSelectOption> = []
   selectCargos: Array<PoMultiselectOption> = []
   startDate: string = <any>new Date();
@@ -59,12 +62,12 @@ export class DashboardComponent  {
   filterMode = PoMultiselectFilterMode.contains;
 
   selectedItems = [];
-  
+
   constructor(
     private poAlert: PoDialogService,
     private dashboardService: DashboardService,
-  ) {}
-  
+  ) { }
+
   chartOptions: PoChartOptions = {
     legend: true,
     // axis: {
@@ -76,15 +79,17 @@ export class DashboardComponent  {
   ngOnInit() {
     this.getTable()
     this.getCustos()
-    this.getDpdto()
-    this.getCargos()
-    this.getCodigos()
-   
-  } 
+    // this.getDpdto()
+    // this.getCargos()
+    this.getDiretores()
+    this.getArea()
+    this.getDeptos()
+
+  }
   searchMore(event: any) {
     window.open(`http://google.com/search?q=coffee+producing+${event.label}`, '_blank');
   }
-  getCustos(){
+  getCustos() {
     this.dashboardService.getCustos(this.custo).subscribe(
       response => {
         this.selectCusto = response.objects;
@@ -94,71 +99,88 @@ export class DashboardComponent  {
       }
     );
   }
-    getCodigos(){
-    this.dashboardService.getCodigos().subscribe(
+  getDiretores() {
+    this.dashboardService.getDiretores(this.codDir, this.codArea, this.codDep).subscribe(
       response => {
-        this.diretores = response.objects.diretorio;
-        this.areas = response.objects.area;
-        this.departamentos2 = response.objects.departamento;
-        console.log( this.departamentos2)
+        this.selectDiretores = response.objects.diretores;
       },
       error => {
         console.error('Erro ao obter dados:', error);
       }
     );
   }
-  getDpdto(){
-    this.dashboardService.getDpdto(this.custo, this.departamento, this.cargo).subscribe(
+  getArea() {
+    this.dashboardService.getAreas(this.codDir, this.codArea, this.codDep).subscribe(
       response => {
-        this.selectDepartamentos = response.objects;
-        console.log(this.selectDepartamentos)
+        this.selectAreas = response.objects.areas;
       },
       error => {
         console.error('Erro ao obter dados:', error);
       }
     );
   }
-  getCargos(){
-    this.dashboardService.getCargos(this.custo, this.departamento, this.cargo).subscribe(
+  getDeptos() {
+    this.dashboardService.getDeptos(this.codDir, this.codArea, this.codDep).subscribe(
       response => {
-        this.selectCargos = response.objects;
+        this.selectDepartamentos = response.objects.departamentos;
       },
       error => {
         console.error('Erro ao obter dados:', error);
       }
     );
   }
-  dataAtual(){
+  // getDpdto() {
+  //   this.dashboardService.getDpdto(this.custo, this.departamento, this.cargo).subscribe(
+  //     response => {
+  //       this.selectDepartamentos = response.objects;
+  //       console.log(this.selectDepartamentos)
+  //     },
+  //     error => {
+  //       console.error('Erro ao obter dados:', error);
+  //     }
+  //   );
+  // }
+  // getCargos() {
+  //   this.dashboardService.getCargos(this.custo, this.departamento, this.cargo).subscribe(
+  //     response => {
+  //       this.selectCargos = response.objects;
+  //     },
+  //     error => {
+  //       console.error('Erro ao obter dados:', error);
+  //     }
+  //   );
+  // }
+  dataAtual() {
     const today = new Date();
     const year = today.getFullYear();
     const month = ('0' + (today.getMonth() + 1)).slice(-2);  // Adiciona zero à esquerda se necessário
     const day = ('0' + today.getDate()).slice(-2);           // Adiciona zero à esquerda se necessário
-    
+
     const formattedDate = `${year}${month}${day}`;
 
     return formattedDate
 
   }
-  anoAtual(){
+  anoAtual() {
     const agora = new Date()
     return agora.getFullYear().toString()
   }
-  mesAtual(){
+  mesAtual() {
     const data = new Date();
     return (data.getMonth() + 1).toString().padStart(2, '0');
   }
   getDeltaTitle() {
     return this.delta > 0 ? `🔼 Delta: ${this.delta}` : `🔽 Delta: ${this.delta}`;
   }
-  
-  getTable(){
 
-    this.dashboardService.getTable(this.dataIni, this.custo, this.departamento, this.cargo).subscribe(
+  getTable() {
+
+    this.dashboardService.getTable(this.codDir, this.codArea, this.codDep, this.dataIni, this.custo).subscribe(
       response => {
 
-        this.custos = response.tabela1;
-        this.departamentos = response.tabela2;
-        this.cargos = response.tabela3;
+        this.diretores = response.tabela1;
+        this.areas = response.tabela2;
+        this.departamentos = response.tabela3;
         this.funcionarios = response.tabela4;
 
         let ferias = response.ferias?.[0]?.data ?? 0;
@@ -170,10 +192,10 @@ export class DashboardComponent  {
           quantidadeFuncionarios = this.funcionarios.filter(item => Object.keys(item).length > 0).length;
         }
         this.delta = orcamento - quantidadeFuncionarios
-        let ativos =  quantidadeFuncionarios - (ferias + atestado + afastado)
-        let funcionarios =  ativos +  atestado + ferias
+        let ativos = quantidadeFuncionarios - (ferias + atestado + afastado)
+        let funcionarios = ativos + atestado + ferias
         this.colunaItens = [
-          { label: 'Orçado', data: [orcamento]},
+          { label: 'Orçado', data: [orcamento] },
           { label: 'Funcionarios', data: [funcionarios] }
         ]
         this.ativos = ativos
@@ -181,13 +203,13 @@ export class DashboardComponent  {
         this.afastados = afastado
         this.ferias = ferias
 
-         this.pizzaItens= [
+        this.pizzaItens = [
           { label: 'Atestado', data: atestado, color: 'po-color-08' },
           { label: 'Afastados', data: afastado, color: 'po-color-07' },
-          { label: 'Ativos', data: ativos, color:  'po-color-10' },
+          { label: 'Ativos', data: ativos, color: 'po-color-10' },
           { label: 'Ferias', data: ferias, color: 'po-color-02' },
         ]
-       
+
       },
       error => {
         console.error('Erro ao obter dados:', error);
@@ -211,7 +233,7 @@ export class DashboardComponent  {
   changeDate(event: any) {
 
     this.getTable()
-  
+
   }
   changeCusto(event: any) {
 
@@ -219,27 +241,34 @@ export class DashboardComponent  {
     this.departamento = ''
     this.selectCargos = []
 
-    this.getDpdto()
+    // this.getDpdto()
     this.getTable()
 
     if (this.selectedItems.length > 1) {
       this.selectedItems = [this.selectedItems[1]]; // Mantém apenas o último selecionado
     }
-  
+
   }
   changeDpto(event: any) {
-    
+
     this.cargo = ''
     this.selectCargos = []
     this.getTable()
-    this.getCargos()
-  
+    // this.getCargos()
+
   }
   changeCargo(event: any) {
     this.getTable()
   }
-    changeDiretor(event: any) {
+  changeDiretor(event: any) {
     this.getTable()
+    this.getArea()
+    this.getDeptos()
+
+  }
+  changeArea(event: any) {
+    this.getTable()
+    this.getDeptos()
   }
   onDateChange(value: Date | string) {
     if (typeof value === 'string') {
@@ -248,25 +277,25 @@ export class DashboardComponent  {
   }
   onCustoChange(value: any) {
     this.custo = value
-    
+
   }
-    onDiretorChange(value: any) {
-    this.diretor = value
-    
+  onDiretorChange(value: any) {
+    this.codDir = value
+
   }
-    onAreaChange(value: any) {
-    this.area = value
-    
+  onAreaChange(value: any) {
+    this.codArea = value
+
   }
-    onDepartamento2Change(value: any) {
-    this.departamento2 = value
-    
+  onDepartamento2Change(value: any) {
+    this.codDep = value
+
   }
   onDptoChange(value: any) {
     this.departamento = value
   }
   onCargoChange(value: any) {
-    this.cargo = value;  
+    this.cargo = value;
   }
 
 }

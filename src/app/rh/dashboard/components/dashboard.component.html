@@ -3,6 +3,10 @@
     <po-datepicker class="po-md-2" name="minDate" [(ngModel)]="minDate" p-clean p-label="Data" [p-max-date]="maxDate"
       [p-format]="format" (p-change)="changeDate($event)" [(ngModel)]="startDate">
     </po-datepicker>
+    <po-multiselect class="po-md-2" name="custo" p-label="Centro de Custo" [p-options]="selectCusto" [(ngModel)]="custo"
+      (ngModelChange)="onCustoChange($event)" (p-change)="changeCusto($event)" [p-filter-mode]="filterMode"
+      [p-hide-select-all]="true">
+    </po-multiselect>
     <po-multiselect class="po-md-2" name="codDir" p-label="Cod. Dir" [p-options]="selectDiretores" [(ngModel)]="codDir"
       (ngModelChange)="onDiretorChange($event)" (p-change)="changeDiretor($event)" [p-filter-mode]="filterMode"
       [p-hide-select-all]="true">
@@ -14,10 +18,10 @@
       [(ngModel)]="codDep" (ngModelChange)="onDptoChange($event)" (p-change)="changeDpto($event)"
       [p-hide-select-all]="true">
     </po-multiselect>
-    <po-multiselect class="po-md-2" name="custo" p-label="Centro de Custo" [p-options]="selectCusto" [(ngModel)]="custo"
-      (ngModelChange)="onCustoChange($event)" (p-change)="changeCusto($event)" [p-filter-mode]="filterMode"
-      [p-hide-select-all]="true">
+    <po-multiselect class="po-md-2 " name="codFun" p-label="Cod.Fun" [p-options]="selectFuncao" [(ngModel)]="codFunc"
+      (ngModelChange)="onFuncaoChange($event)" (p-change)="changeFuncao($event)" [p-hide-select-all]="true">
     </po-multiselect>
+
   </div>
 </div>
 <div class="po-row">

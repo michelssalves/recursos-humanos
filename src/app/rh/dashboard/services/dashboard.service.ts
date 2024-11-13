@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,39 +7,75 @@ import { Observable } from 'rxjs';
 })
 export class DashboardService {
 
-  private apiUrl = 'http://vhwin1065:9323/rest/zWSDashRh';
+  private apiUrl = 'http://vhwin1065:9323/rest/zWSDashRh'; // Substitua com a URL correta do seu serviço
 
   constructor(private http: HttpClient) { }
 
-  getCustos(custo: string): Observable<any> {
-    const url = `${this.apiUrl}/get_custo?custo=${custo}`;
-    return this.http.get<any>(url);
-  }
-  getDiretores(codDir: string, codArea: string, codDep: string): Observable<any> {
-    const url = `${this.apiUrl}/get_diretores?codDir=${codDir}&codArea=${codArea}&codDep=${codDep}`;
-    return this.http.get<any>(url);
-  }
-  getAreas(codDir: string, codArea: string, codDep: string): Observable<any> {
-    const url = `${this.apiUrl}/get_areas?codDir=${codDir}&codArea=${codArea}&codDep=${codDep}`;
-    return this.http.get<any>(url);
-  }
-  getDeptos(codDir: string, codArea: string, codDep: string): Observable<any> {
-    const url = `${this.apiUrl}/get_depto?codDir=${codDir}&codArea=${codArea}&codDep=${codDep}`;
-    return this.http.get<any>(url);
-  }
-
-  getDpdto(custo: string, departamento: string, cargo: string): Observable<any> {
-    const url = `${this.apiUrl}/get_departamento?custo=${custo}&departamento=${departamento}&cargo=${cargo}`;
-    return this.http.get<any>(url);
-  }
-  getCargos(custo: string, departamento: string, cargo: string): Observable<any> {
-    const url = `${this.apiUrl}/get_cargo?custo=${custo}&departamento=${departamento}&cargo=${cargo}`;
-    return this.http.get<any>(url);
+  // Método genérico para construir o corpo da requisição
+  private buildRequestBody(
+    codCusto: Array<any>,
+    codDir: Array<any>,
+    codArea: Array<any>,
+    codDep: Array<any>,
+    codFunc: Array<any>,
+    dataIni?: string | Date
+  ): any {
+    return {
+      codCusto: codCusto || '',
+      codDir: codDir || '',
+      codArea: codArea || '',
+      codDep: codDep || '',
+      codFunc: codFunc || '',
+      dataIni: dataIni || ''
+    };
   }
 
-  getTable(codDir: string, codArea: string, codDep: string, dataIni: string | Date, custo: string): Observable<any> {
-    const url = `${this.apiUrl}/get_table?codDir=${codDir}&codArea=${codArea}&codDep=${codDep}&dataIni=${dataIni}&custo=${custo}`;
-    return this.http.get<any>(url);
+  // Headers padrão
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
   }
 
+  // POST para custos
+  postCustos(codCusto: Array<any>, codDir: Array<any>, codArea: Array<any>, codDep: Array<any>, codFunc: Array<any>): Observable<any> {
+    const url = `${this.apiUrl}/get_custo`;
+    const body = this.buildRequestBody(codCusto, codDir, codArea, codDep, codFunc);
+    return this.http.post<any>(url, body, { headers: this.getHeaders() });
+  }
+
+  // POST para diretores
+  postDiretores(codCusto: Array<any>, codDir: Array<any>, codArea: Array<any>, codDep: Array<any>, codFunc: Array<any>): Observable<any> {
+    const url = `${this.apiUrl}/get_diretores`;
+    const body = this.buildRequestBody(codCusto, codDir, codArea, codDep, codFunc);
+    return this.http.post<any>(url, body, { headers: this.getHeaders() });
+  }
+
+  // POST para áreas
+  postAreas(codCusto: Array<any>, codDir: Array<any>, codArea: Array<any>, codDep: Array<any>, codFunc: Array<any>): Observable<any> {
+    const url = `${this.apiUrl}/get_areas`;
+    const body = this.buildRequestBody(codCusto, codDir, codArea, codDep, codFunc);
+    return this.http.post<any>(url, body, { headers: this.getHeaders() });
+  }
+
+  // POST para departamentos
+  postDeptos(codCusto: Array<any>, codDir: Array<any>, codArea: Array<any>, codDep: Array<any>, codFunc: Array<any>): Observable<any> {
+    const url = `${this.apiUrl}/get_depto`;
+    const body = this.buildRequestBody(codCusto, codDir, codArea, codDep, codFunc);
+    return this.http.post<any>(url, body, { headers: this.getHeaders() });
+  }
+
+  // POST para funções
+  postFuncoes(codCusto: Array<any>, codDir: Array<any>, codArea: Array<any>, codDep: Array<any>, codFunc: Array<any>): Observable<any> {
+    const url = `${this.apiUrl}/get_funcoes`;
+    const body = this.buildRequestBody(codCusto, codDir, codArea, codDep, codFunc);
+    return this.http.post<any>(url, body, { headers: this.getHeaders() });
+  }
+
+  // POST para tabela
+  postTable(codCusto: Array<any>, codDir: Array<any>, codArea: Array<any>, codDep: Array<any>, codFunc: Array<any>, dataIni: string | Date): Observable<any> {
+    const url = `${this.apiUrl}/get_table`;
+    const body = this.buildRequestBody(codCusto, codDir, codArea, codDep, codFunc, dataIni);
+    return this.http.post<any>(url, body, { headers: this.getHeaders() });
+  }
 }

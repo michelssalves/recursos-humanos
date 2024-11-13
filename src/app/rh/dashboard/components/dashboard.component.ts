@@ -26,11 +26,13 @@ export class DashboardComponent {
   minDate: string | Date;
   countFunc = 0
   orcado = 30
-  custo: string = ''
-  codDir: string = ''
-  codArea: string = ''
-  codDep: string = ''
+  custo: Array<any> = [];
+  codDir: Array<any> = [];
+  codArea: Array<any> = [];
+  codDep: Array<any> = [];
+  codFunc: Array<any> = [];
   departamento: string = ''
+  funcao: string = ''
   cargo: string = ''
   dataIni: string | Date = this.dataAtual()
   mes: string = this.mesAtual()
@@ -47,20 +49,13 @@ export class DashboardComponent {
   custos: Array<any> = [];
   cargos: Array<any> = [];
   funcionarios: Array<any> = [];
-
   selectAreas: Array<PoMultiselectOption> = []
   selectDiretores: Array<PoMultiselectOption> = []
   selectDepartamentos: Array<PoMultiselectOption> = []
-  //selectCusto: Array<PoSelectOption> = []
   selectCusto: Array<PoMultiselectOption> = []
-  //selectDepartamentos: Array<PoSelectOption> = []
-
-  //selectCargos: Array<PoSelectOption> = []
-  selectCargos: Array<PoMultiselectOption> = []
+  selectFuncao: Array<PoMultiselectOption> = []
   startDate: string = <any>new Date();
-
   filterMode = PoMultiselectFilterMode.contains;
-
   selectedItems = [];
 
   constructor(
@@ -70,27 +65,21 @@ export class DashboardComponent {
 
   chartOptions: PoChartOptions = {
     legend: true,
-    // axis: {
-    //   minRange: 0,
-    //   maxRange: 100,
-    //   gridLines: 7,
-    // },
   };
   ngOnInit() {
-    this.getTable()
     this.getCustos()
-    // this.getDpdto()
-    // this.getCargos()
+    this.getFuncoes()
     this.getDiretores()
     this.getArea()
     this.getDeptos()
+    this.getTable()
 
   }
   searchMore(event: any) {
     window.open(`http://google.com/search?q=coffee+producing+${event.label}`, '_blank');
   }
   getCustos() {
-    this.dashboardService.getCustos(this.custo).subscribe(
+    this.dashboardService.postCustos(this.custo, this.codDir, this.codArea, this.codDep, this.codFunc).subscribe(
       response => {
         this.selectCusto = response.objects;
       },
@@ -100,7 +89,7 @@ export class DashboardComponent {
     );
   }
   getDiretores() {
-    this.dashboardService.getDiretores(this.codDir, this.codArea, this.codDep).subscribe(
+    this.dashboardService.postDiretores(this.custo, this.codDir, this.codArea, this.codDep, this.codFunc).subscribe(
       response => {
         this.selectDiretores = response.objects.diretores;
       },
@@ -110,7 +99,7 @@ export class DashboardComponent {
     );
   }
   getArea() {
-    this.dashboardService.getAreas(this.codDir, this.codArea, this.codDep).subscribe(
+    this.dashboardService.postAreas(this.custo, this.codDir, this.codArea, this.codDep, this.codFunc).subscribe(
       response => {
         this.selectAreas = response.objects.areas;
       },
@@ -120,7 +109,7 @@ export class DashboardComponent {
     );
   }
   getDeptos() {
-    this.dashboardService.getDeptos(this.codDir, this.codArea, this.codDep).subscribe(
+    this.dashboardService.postDeptos(this.custo, this.codDir, this.codArea, this.codDep, this.codFunc).subscribe(
       response => {
         this.selectDepartamentos = response.objects.departamentos;
       },
@@ -129,37 +118,23 @@ export class DashboardComponent {
       }
     );
   }
-  // getDpdto() {
-  //   this.dashboardService.getDpdto(this.custo, this.departamento, this.cargo).subscribe(
-  //     response => {
-  //       this.selectDepartamentos = response.objects;
-  //       console.log(this.selectDepartamentos)
-  //     },
-  //     error => {
-  //       console.error('Erro ao obter dados:', error);
-  //     }
-  //   );
-  // }
-  // getCargos() {
-  //   this.dashboardService.getCargos(this.custo, this.departamento, this.cargo).subscribe(
-  //     response => {
-  //       this.selectCargos = response.objects;
-  //     },
-  //     error => {
-  //       console.error('Erro ao obter dados:', error);
-  //     }
-  //   );
-  // }
+  getFuncoes() {
+    this.dashboardService.postFuncoes(this.custo, this.codDir, this.codArea, this.codDep, this.codFunc).subscribe(
+      response => {
+        this.selectFuncao = response.objects;
+      },
+      error => {
+        console.error('Erro ao obter dados:', error);
+      }
+    );
+  }
   dataAtual() {
     const today = new Date();
     const year = today.getFullYear();
     const month = ('0' + (today.getMonth() + 1)).slice(-2);  // Adiciona zero à esquerda se necessário
     const day = ('0' + today.getDate()).slice(-2);           // Adiciona zero à esquerda se necessário
-
     const formattedDate = `${year}${month}${day}`;
-
     return formattedDate
-
   }
   anoAtual() {
     const agora = new Date()
@@ -172,10 +147,8 @@ export class DashboardComponent {
   getDeltaTitle() {
     return this.delta > 0 ? `🔼 Delta: ${this.delta}` : `🔽 Delta: ${this.delta}`;
   }
-
   getTable() {
-
-    this.dashboardService.getTable(this.codDir, this.codArea, this.codDep, this.dataIni, this.custo).subscribe(
+    this.dashboardService.postTable(this.custo, this.codDir, this.codArea, this.codDep, this.codFunc, this.dataIni).subscribe(
       response => {
 
         this.diretores = response.tabela1;
@@ -217,31 +190,22 @@ export class DashboardComponent {
     );
   }
   changeMes(event: any) {
-
     this.getTable()
   }
   changeAno(event: any) {
-
     this.getTable()
-
   }
   changeProduto(event: any) {
-
     this.getTable()
-
   }
   changeDate(event: any) {
-
     this.getTable()
-
   }
   changeCusto(event: any) {
-
-    this.cargo = ''
-    this.departamento = ''
-    this.selectCargos = []
-
-    // this.getDpdto()
+    this.getArea()
+    this.getDiretores()
+    this.getFuncoes()
+    this.getDeptos()
     this.getTable()
 
     if (this.selectedItems.length > 1) {
@@ -250,25 +214,32 @@ export class DashboardComponent {
 
   }
   changeDpto(event: any) {
-
-    this.cargo = ''
-    this.selectCargos = []
+    this.getArea()
+    this.getDiretores()
+    this.getFuncoes()
+    this.getCustos()
     this.getTable()
-    // this.getCargos()
-
   }
-  changeCargo(event: any) {
+  changeFuncao(event: any) {
+    this.getArea()
+    this.getDiretores()
+    this.getDeptos()
+    this.getCustos()
     this.getTable()
   }
   changeDiretor(event: any) {
-    this.getTable()
     this.getArea()
+    this.getFuncoes()
     this.getDeptos()
-
+    this.getCustos()
+    this.getTable()
   }
   changeArea(event: any) {
-    this.getTable()
+    this.getDiretores()
+    this.getFuncoes()
     this.getDeptos()
+    this.getCustos()
+    this.getTable()
   }
   onDateChange(value: Date | string) {
     if (typeof value === 'string') {
@@ -277,25 +248,18 @@ export class DashboardComponent {
   }
   onCustoChange(value: any) {
     this.custo = value
-
   }
   onDiretorChange(value: any) {
     this.codDir = value
-
   }
   onAreaChange(value: any) {
     this.codArea = value
-
-  }
-  onDepartamento2Change(value: any) {
-    this.codDep = value
-
   }
   onDptoChange(value: any) {
     this.departamento = value
   }
-  onCargoChange(value: any) {
-    this.cargo = value;
+  onFuncaoChange(value: any) {
+    this.codFunc = value;
   }
 
 }

@@ -14,6 +14,8 @@ ul {
      --color-brand-01-dark: #045b8f;
      --color-current-page: #238ac7;
      --color-action-default: #045b8f;
+     --spacing-md: 0rem;
+     /* --spacing-xs: 0.3rem; */
 }
 
 .po-menu,
@@ -34,7 +36,23 @@ ul {
      color: #507085;
 }
 
-.po-page-content {
-     padding: 0px 40px 0px 0px;
-     margin-right: 15px;
- }
+.po-breadcrumb-items {
+     display: inline;
+     list-style: none;
+     margin-left: 20px;
+}
+
+.p-4 {
+     padding: 0.3rem !important;
+}
+
+.responsive-img {
+     max-width: 100%;
+     /* A imagem não ficará maior que o tamanho da div */
+     height: 100px;
+     /* Mantém a proporção original da imagem */
+     display: block;
+     /* Remove espaços indesejados ao redor da imagem */
+     margin: 0 auto;
+     /* Centraliza a imagem dentro da div */
+}

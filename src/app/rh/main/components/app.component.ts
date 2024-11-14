@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { FormsModule, ReactiveFormsModule,  } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
 import { filter } from 'rxjs/operators';
 import { AppService } from '../services';
 //import { ProAppConfigService, ProJsToAdvplService, ProtheusLibCoreModule } from '@totvs/protheus-lib-core';
 import {
-  PoContainerModule, 
-  PoWidgetModule, 
-  PoModalModule, 
+  PoContainerModule,
+  PoWidgetModule,
+  PoModalModule,
   PoDynamicModule,
-  PoTableModule, 
-  PoPageAction,  
+  PoTableModule,
+  PoPageAction,
   PoBreadcrumb,
   PoComboComponent,
   PoFieldModule,
@@ -19,10 +19,8 @@ import {
   PoMenuModule,
   PoPageModule,
   PoToolbarModule,
-  
- 
-} from '@po-ui/ng-components';
 
+} from '@po-ui/ng-components';
 
 @Component({
   selector: 'app-root',
@@ -36,26 +34,26 @@ import {
     PoFieldModule,
     FormsModule,
     ReactiveFormsModule,
-  
+
   ],
-  providers: [AppService ],
+  providers: [AppService],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
 
-   public readonly actions: Array<PoPageAction> = [
-    
+  public readonly actions: Array<PoPageAction> = [
+
   ];
   menuItemSelected: string = '';
   menus: Array<PoMenuItem> = [
     { label: 'Dashboard', action: this.printMenuAction.bind(this), icon: 'po-icon po-icon-chart-columns', link: 'dashboard', shortLabel: 'Dashboard' },
     // { label: 'Sair', action: this.closeApp.bind(this), icon: 'po-icon ph ph-sign-out', link: '', shortLabel: 'Sair' },
-   
+
   ];
 
   constructor(
-   // private proAppConfigService: ProAppConfigService,
+    // private proAppConfigService: ProAppConfigService,
     public appService: AppService,
     private router: Router,
     private route: ActivatedRoute

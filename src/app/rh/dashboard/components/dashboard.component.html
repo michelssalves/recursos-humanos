@@ -1,7 +1,8 @@
 <div class="p-container p-4">
   <div class="p-row">
     <po-datepicker class="po-md-2" name="minDate" [(ngModel)]="minDate" p-clean p-label="Data" [p-max-date]="maxDate"
-      [p-format]="format" (p-change)="changeDate($event)" [(ngModel)]="startDate">
+      [p-format]="format" (ngModelChange)="onDateChange($event)" (p-change)="changeDate($event)"
+      [(ngModel)]="startDate">
     </po-datepicker>
     <po-multiselect class="po-md-2" name="custo" p-label="Centro de Custo" [p-options]="selectCusto" [(ngModel)]="custo"
       (ngModelChange)="onCustoChange($event)" (p-change)="changeCusto($event)" [p-filter-mode]="filterMode"
@@ -21,19 +22,18 @@
     <po-multiselect class="po-md-2 " name="codFun" p-label="Cod.Fun" [p-options]="selectFuncao" [(ngModel)]="codFunc"
       (ngModelChange)="onFuncaoChange($event)" (p-change)="changeFuncao($event)" [p-hide-select-all]="true">
     </po-multiselect>
-
   </div>
 </div>
 <div class="po-row">
   <div class="po-md-12 po-lg-12">
     <po-container class="po-lg-4 po-mt-2">
-      <po-table [p-height]="150" p-container="shadow" [p-hide-columns-manager]="true" [p-items]="diretores"></po-table>
+      <po-table [p-height]="400" p-container="shadow" [p-hide-columns-manager]="true" [p-items]="diretores"></po-table>
     </po-container>
     <po-container class="po-lg-4 po-mt-2">
-      <po-table [p-height]="150" p-container="shadow" [p-hide-columns-manager]="true" [p-items]="areas"></po-table>
+      <po-table [p-height]="400" p-container="shadow" [p-hide-columns-manager]="true" [p-items]="areas"></po-table>
     </po-container>
     <po-container class="po-lg-4 po-mt-2">
-      <po-table [p-height]="150" p-container="shadow" [p-hide-columns-manager]="true"
+      <po-table [p-height]="400" p-container="shadow" [p-hide-columns-manager]="true"
         [p-items]="departamentos"></po-table>
     </po-container>
   </div>
@@ -41,7 +41,7 @@
 <div class="po-row">
   <div class="po-md-12 po-lg-12">
     <po-container class="po-lg-12 po-mt-2">
-      <po-table [p-height]="250" p-container="shadow" [p-hide-columns-manager]="true"
+      <po-table [p-height]="200" p-container="shadow" [p-hide-columns-manager]="true"
         [p-items]="funcionarios"></po-table>
     </po-container>
   </div>

@@ -1,7 +1,0 @@
-.responsive-img {
-    max-width: 100%;  /* A imagem não ficará maior que o tamanho da div */
-    height: 100px;     /* Mantém a proporção original da imagem */
-    display: block;   /* Remove espaços indesejados ao redor da imagem */
-    margin: 0 auto;   /* Centraliza a imagem dentro da div */
-  }
-  

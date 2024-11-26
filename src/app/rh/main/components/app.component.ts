@@ -1,25 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
 import { filter } from 'rxjs/operators';
 import { AppService } from '../services';
 //import { ProAppConfigService, ProJsToAdvplService, ProtheusLibCoreModule } from '@totvs/protheus-lib-core';
 import {
-  PoContainerModule,
-  PoWidgetModule,
-  PoModalModule,
-  PoDynamicModule,
-  PoTableModule,
   PoPageAction,
   PoBreadcrumb,
-  PoComboComponent,
   PoFieldModule,
   PoMenuItem,
   PoMenuModule,
   PoPageModule,
   PoToolbarModule,
-
 } from '@po-ui/ng-components';
 
 @Component({

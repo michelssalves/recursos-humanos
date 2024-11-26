@@ -20,15 +20,3 @@ User Function recursosHumanos()
 
 Return
 
-
-User Function datanova()
-
-	Local cdata := ''
-	Local cMes := ''
-
-	cdata := MONTH(STOD("20240930"))
-
-	cMes := "COUNT(ZA7.ZA7_MES"+cValToChar(MONTH(STOD("20240930")))+") AS ORCAMENTO"
-
-
-Return

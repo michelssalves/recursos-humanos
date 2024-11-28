@@ -206,6 +206,7 @@ export class DashboardComponent {
     this.getDiretores()
     this.getFuncoes()
     this.getDeptos()
+    this.getCustos()
     this.getTable()
 
     if (this.selectedItems.length > 1) {

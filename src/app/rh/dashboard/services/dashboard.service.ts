@@ -9,6 +9,10 @@ export class DashboardService {
 
   private apiUrl = 'http://vhwin1065:9323/rest/zWSDashRh'; // Substitua com a URL correta do seu serviço
 
+  private apiUrl2 = 'http://vhwin1065:9323/rest/protheus/12919786000124/v1'; // Substitua com a URL correta do seu serviço
+
+  
+
   constructor(private http: HttpClient) { }
 
   // Método genérico para construir o corpo da requisição
@@ -44,10 +48,17 @@ export class DashboardService {
 
   // POST para custos
   postCustos(codCusto: Array<any>, codDir: Array<any>, codArea: Array<any>, codDep: Array<any>, codFunc: Array<any>): Observable<any> {
-    const url = `${this.apiUrl}/get_custo`;
+    const url = `${this.apiUrl2}/custos`;
     const body = this.buildRequestBody(codCusto[0], codDir[0], codArea[0], codDep, codFunc);
     return this.http.post<any>(url, body, { headers: this.getHeaders() });
   }
+
+    // // POST para custos
+    // getCustos(codCusto: Array<any>, codDir: Array<any>, codArea: Array<any>, codDep: Array<any>, codFunc: Array<any>): Observable<any> {
+    //   const url = `${this.apiUrl}/get_custo`;
+    //   const body = this.buildRequestBody(codCusto[0], codDir[0], codArea[0], codDep, codFunc);
+    //   return this.http.post<any>(url, body, { headers: this.getHeaders() });
+    // }
 
   // POST para diretores
   postDiretores(codCusto: Array<any>, codDir: Array<any>, codArea: Array<any>, codDep: Array<any>, codFunc: Array<any>): Observable<any> {

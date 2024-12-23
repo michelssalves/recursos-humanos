@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { PoChartType, PoChartOptions, PoChartSerie, PoTableModule, PoContainerModule, PoWidgetModule, PoChartModule, PoDisclaimerGroupModule, PoFieldModule, PoMultiselectOption, PoDialogService, PoMultiselectFilterMode } from '@po-ui/ng-components';
-import { DashboardService } from '../services';
 import { CommonModule } from '@angular/common';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { PoChartModule, PoChartOptions, PoChartSerie, PoChartType, PoContainerModule, PoDialogService, PoDisclaimerGroupModule, PoFieldModule, PoMultiselectFilterMode, PoMultiselectOption, PoTableModule, PoWidgetModule } from '@po-ui/ng-components';
+import { DashboardService } from '../services';
 
 @Component({
   selector: 'app-dashboard',
@@ -67,61 +66,22 @@ export class DashboardComponent {
     legend: true,
   };
   ngOnInit() {
-    this.getCustos()
-    this.getFuncoes()
-    this.getDiretores()
-    this.getArea()
-    this.getDeptos()
+
+    this.getMenus()
     this.getTable()
 
   }
   searchMore(event: any) {
     window.open(`http://google.com/search?q=coffee+producing+${event.label}`, '_blank');
   }
-  getCustos() {
-    this.dashboardService.postCustos(this.custo, this.codDir, this.codArea, this.codDep, this.codFunc).subscribe(
+  getMenus() {
+    this.dashboardService.getMenus(this.custo, this.codDir, this.codArea, this.codDep, this.codFunc).subscribe(
       response => {
-        this.selectCusto = response.objects;
-      },
-      error => {
-        console.error('Erro ao obter dados:', error);
-      }
-    );
-  }
-  getDiretores() {
-    this.dashboardService.postDiretores(this.custo, this.codDir, this.codArea, this.codDep, this.codFunc).subscribe(
-      response => {
-        this.selectDiretores = response.objects.diretores;
-      },
-      error => {
-        console.error('Erro ao obter dados:', error);
-      }
-    );
-  }
-  getArea() {
-    this.dashboardService.postAreas(this.custo, this.codDir, this.codArea, this.codDep, this.codFunc).subscribe(
-      response => {
-        this.selectAreas = response.objects.areas;
-      },
-      error => {
-        console.error('Erro ao obter dados:', error);
-      }
-    );
-  }
-  getDeptos() {
-    this.dashboardService.postDeptos(this.custo, this.codDir, this.codArea, this.codDep, this.codFunc).subscribe(
-      response => {
-        this.selectDepartamentos = response.objects.departamentos;
-      },
-      error => {
-        console.error('Erro ao obter dados:', error);
-      }
-    );
-  }
-  getFuncoes() {
-    this.dashboardService.postFuncoes(this.custo, this.codDir, this.codArea, this.codDep, this.codFunc).subscribe(
-      response => {
-        this.selectFuncao = response.objects;
+        this.selectCusto = response.custos;
+        this.selectDepartamentos = response.departamentos;
+        this.selectFuncao = response.funcoes;
+        this.selectDiretores = response.diretores;
+        this.selectAreas = response.areas;
       },
       error => {
         console.error('Erro ao obter dados:', error);
@@ -202,11 +162,7 @@ export class DashboardComponent {
     this.getTable()
   }
   changeCusto(event: any) {
-    this.getArea()
-    this.getDiretores()
-    this.getFuncoes()
-    this.getDeptos()
-    this.getCustos()
+    this.getMenus()
     this.getTable()
 
     if (this.selectedItems.length > 1) {
@@ -215,31 +171,19 @@ export class DashboardComponent {
 
   }
   changeDpto(event: any) {
-    this.getArea()
-    this.getDiretores()
-    this.getFuncoes()
-    this.getCustos()
+    this.getMenus()
     this.getTable()
   }
   changeFuncao(event: any) {
-    this.getArea()
-    this.getDiretores()
-    this.getDeptos()
-    this.getCustos()
+    this.getMenus()
     this.getTable()
   }
   changeDiretor(event: any) {
-    this.getArea()
-    this.getFuncoes()
-    this.getDeptos()
-    this.getCustos()
+    this.getMenus()
     this.getTable()
   }
   changeArea(event: any) {
-    this.getDiretores()
-    this.getFuncoes()
-    this.getDeptos()
-    this.getCustos()
+    this.getMenus()
     this.getTable()
   }
   onDateChange(value: Date | string) {

@@ -1,97 +1,55 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { LoadingService } from './loading.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
+  private apiUrl2 = 'http://vhwin1065:9323/rest/protheus/12919786000124/v1/head-count-budget/';
 
-  private apiUrl = 'http://vhwin1065:9323/rest/zWSDashRh'; // Substitua com a URL correta do seu serviço
+  constructor(private http: HttpClient, private loadingService: LoadingService) {}
 
-  private apiUrl2 = 'http://vhwin1065:9323/rest/protheus/12919786000124/v1/head-count-budget/'; // Substitua com a URL correta do seu serviço
-
-  
-
-  constructor(private http: HttpClient) { }
-
-  // Método genérico para construir o corpo da requisição
   private buildRequestBody(
-
     codCusto: Array<any>,
     codDir: Array<any>,
     codArea: Array<any>,
     codDep: Array<any>,
     codFunc: Array<any>,
     dataIni?: string | Date
-
-
   ): any {
     return {
-
       codCusto: codCusto || '',
       codDir: codDir || '',
       codArea: codArea || '',
       codDep: codDep || '',
       codFunc: codFunc || '',
       dataIni: dataIni || ''
-      
     };
   }
 
-  // Headers padrão
   private getHeaders(): HttpHeaders {
     return new HttpHeaders({
       'Content-Type': 'application/json'
     });
   }
 
-  // POST para custos
-  getMenus(codCusto: Array<any>, codDir: Array<any>, codArea: Array<any>, codDep: Array<any>, codFunc: Array<any>): Observable<any> {
+  getMenus(
+    codCusto: Array<any>,
+    codDir: Array<any>,
+    codArea: Array<any>,
+    codDep: Array<any>,
+    codFunc: Array<any>
+  ): Observable<any> {
     const url = `${this.apiUrl2}`;
     const body = this.buildRequestBody(codCusto, codDir, codArea, codDep, codFunc);
-    return this.http.post<any>(url, body, { headers: this.getHeaders() });
-  }
 
-    // // POST para custos
-    getCustos(codCusto: Array<any>, codDir: Array<any>, codArea: Array<any>, codDep: Array<any>, codFunc: Array<any>): Observable<any> {
-      const url = `${this.apiUrl}/get_custo`;
-      const body = this.buildRequestBody(codCusto[0], codDir[0], codArea[0], codDep, codFunc);
-      return this.http.post<any>(url, body, { headers: this.getHeaders() });
-    }
+    this.loadingService.show(); // Ativa o preloader antes da requisição
 
-  // POST para diretores
-  postDiretores(codCusto: Array<any>, codDir: Array<any>, codArea: Array<any>, codDep: Array<any>, codFunc: Array<any>): Observable<any> {
-    const url = `${this.apiUrl}/get_diretores`;
-    const body = this.buildRequestBody(codCusto[0], codDir[0], codArea[0], codDep, codFunc);
-    return this.http.post<any>(url, body, { headers: this.getHeaders() });
-  }
-
-  // POST para áreas
-  postAreas(codCusto: Array<any>, codDir: Array<any>, codArea: Array<any>, codDep: Array<any>, codFunc: Array<any>): Observable<any> {
-    const url = `${this.apiUrl}/get_areas`;
-    const body = this.buildRequestBody(codCusto[0], codDir[0], codArea[0], codDep, codFunc);
-    return this.http.post<any>(url, body, { headers: this.getHeaders() });
-  }
-
-  // POST para departamentos
-  postDeptos(codCusto: Array<any>, codDir: Array<any>, codArea: Array<any>, codDep: Array<any>, codFunc: Array<any>): Observable<any> {
-    const url = `${this.apiUrl}/get_depto`;
-    const body = this.buildRequestBody(codCusto[0], codDir[0], codArea[0], codDep, codFunc);
-    return this.http.post<any>(url, body, { headers: this.getHeaders() });
-  }
-
-  // POST para funções
-  postFuncoes(codCusto: Array<any>, codDir: Array<any>, codArea: Array<any>, codDep: Array<any>, codFunc: Array<any>): Observable<any> {
-    const url = `${this.apiUrl}/get_funcoes`;
-    const body = this.buildRequestBody(codCusto[0], codDir[0], codArea[0], codDep, codFunc);
-    return this.http.post<any>(url, body, { headers: this.getHeaders() });
-  }
-
-  // POST para tabela
-  postTable(codCusto: Array<any>, codDir: Array<any>, codArea: Array<any>, codDep: Array<any>, codFunc: Array<any>, dataIni: string | Date): Observable<any> {
-    const url = `${this.apiUrl}/get_table`;
-    const body = this.buildRequestBody(codCusto[0], codDir[0], codArea[0], codDep, codFunc, dataIni);
-    return this.http.post<any>(url, body, { headers: this.getHeaders() });
+    return this.http.post<any>(url, body, { headers: this.getHeaders() }).pipe(
+      finalize(() => this.loadingService.hide()) // Desativa o preloader após a conclusão
+    );
   }
 }

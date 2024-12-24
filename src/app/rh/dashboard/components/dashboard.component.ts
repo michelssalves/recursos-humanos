@@ -10,7 +10,7 @@ import { DashboardService } from '../services';
   imports: [PoTableModule, PoContainerModule, PoWidgetModule, PoChartModule, PoDisclaimerGroupModule, PoFieldModule, FormsModule, CommonModule],
 
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [PoDialogService, DashboardService],
+  providers: [PoDialogService],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -55,6 +55,7 @@ export class DashboardComponent {
   selectFuncao: Array<PoMultiselectOption> = []
   startDate: string = <any>new Date();
   filterMode = PoMultiselectFilterMode.contains;
+  //isLoading = false; 
   selectedItems = [];
 
   constructor(
@@ -86,6 +87,7 @@ export class DashboardComponent {
         this.areas = response.tabela2;
         this.departamentos = response.tabela3;
         //this.funcionarios = response.tabela4;
+        //this.isLoading = false; // Finaliza o preloader
 
       },
       error => {
@@ -117,11 +119,16 @@ export class DashboardComponent {
     
   }
   changeCusto(event: any) {
+   // this.isLoading = true;
     this.getMenus()
     if (this.selectedItems.length > 1) {
       this.selectedItems = [this.selectedItems[1]]; // Mantém apenas o último selecionado
+
+      
     }
 
+    
+    this.getMenus();
   }
   changeDpto(event: any) {
     this.getMenus()

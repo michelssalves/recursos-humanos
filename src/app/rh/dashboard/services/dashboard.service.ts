@@ -9,7 +9,7 @@ export class DashboardService {
 
   private apiUrl = 'http://vhwin1065:9323/rest/zWSDashRh'; // Substitua com a URL correta do seu serviço
 
-  private apiUrl2 = 'http://vhwin1065:9323/rest/protheus/12919786000124/v1/menus/'; // Substitua com a URL correta do seu serviço
+  private apiUrl2 = 'http://vhwin1065:9323/rest/protheus/12919786000124/v1/head-count-budget/'; // Substitua com a URL correta do seu serviço
 
   
 

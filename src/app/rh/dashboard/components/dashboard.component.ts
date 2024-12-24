@@ -68,7 +68,6 @@ export class DashboardComponent {
   ngOnInit() {
 
     this.getMenus()
-    this.getTable()
 
   }
   searchMore(event: any) {
@@ -77,11 +76,17 @@ export class DashboardComponent {
   getMenus() {
     this.dashboardService.getMenus(this.custo, this.codDir, this.codArea, this.codDep, this.codFunc).subscribe(
       response => {
+
         this.selectCusto = response.custos;
         this.selectDepartamentos = response.departamentos;
         this.selectFuncao = response.funcoes;
         this.selectDiretores = response.diretores;
-        this.selectAreas = response.areas;
+        this.selectAreas = response.areas;        
+        this.diretores = response.tabela1;
+        this.areas = response.tabela2;
+        this.departamentos = response.tabela3;
+        //this.funcionarios = response.tabela4;
+
       },
       error => {
         console.error('Erro ao obter dados:', error);
@@ -107,64 +112,12 @@ export class DashboardComponent {
   getDeltaTitle() {
     return this.delta > 0 ? `🔼 Delta: ${this.delta}` : `🔽 Delta: ${this.delta}`;
   }
-  getTable() {
-    this.dashboardService.postTable(this.custo, this.codDir, this.codArea, this.codDep, this.codFunc, this.dataIni).subscribe(
-      response => {
 
-        this.diretores = response.tabela1;
-        this.areas = response.tabela2;
-        this.departamentos = response.tabela3;
-        this.funcionarios = response.tabela4;
-
-        let ferias = response.ferias?.[0]?.data ?? 0;
-        let afastado = response.afastamento?.[0]?.data ?? 0;
-        let atestado = response.atestado?.[0]?.data ?? 0;
-        let orcamento = response.orcamento?.[0]?.orcamento ?? 0;
-        let quantidadeFuncionarios = 0;
-        if (this.funcionarios && this.funcionarios.length) {
-          quantidadeFuncionarios = this.funcionarios.filter(item => Object.keys(item).length > 0).length;
-        }
-        this.delta = orcamento - quantidadeFuncionarios
-        let ativos = quantidadeFuncionarios - (ferias + atestado + afastado)
-        let funcionarios = ativos + atestado + ferias
-        this.colunaItens = [
-          { label: 'Orçado', data: [orcamento] },
-          { label: 'Funcionarios', data: [funcionarios] }
-        ]
-        this.ativos = ativos
-        this.atestados = atestado
-        this.afastados = afastado
-        this.ferias = ferias
-
-        this.pizzaItens = [
-          { label: 'Atestado', data: atestado, color: 'po-color-08' },
-          { label: 'Afastados', data: afastado, color: 'po-color-07' },
-          { label: 'Ativos', data: ativos, color: 'po-color-10' },
-          { label: 'Ferias', data: ferias, color: 'po-color-02' },
-        ]
-
-      },
-      error => {
-        console.error('Erro ao obter dados:', error);
-      }
-    );
-  }
-  changeMes(event: any) {
-    this.getTable()
-  }
-  changeAno(event: any) {
-    this.getTable()
-  }
-  changeProduto(event: any) {
-    this.getTable()
-  }
   changeDate(event: any) {
-    this.getTable()
+    
   }
   changeCusto(event: any) {
     this.getMenus()
-    this.getTable()
-
     if (this.selectedItems.length > 1) {
       this.selectedItems = [this.selectedItems[1]]; // Mantém apenas o último selecionado
     }
@@ -172,19 +125,16 @@ export class DashboardComponent {
   }
   changeDpto(event: any) {
     this.getMenus()
-    this.getTable()
   }
   changeFuncao(event: any) {
     this.getMenus()
-    this.getTable()
+  
   }
   changeDiretor(event: any) {
     this.getMenus()
-    this.getTable()
   }
   changeArea(event: any) {
     this.getMenus()
-    this.getTable()
   }
   onDateChange(value: Date | string) {
     if (typeof value === 'string') {

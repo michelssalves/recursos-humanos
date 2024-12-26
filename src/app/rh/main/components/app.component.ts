@@ -1,8 +1,10 @@
+
 import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { AppService } from '../services';
+import { LoadingService } from './../../dashboard/services/loading.service';
 
 import {
   PoFieldModule,
@@ -17,7 +19,8 @@ import {
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule,
+
+  CommonModule,
     RouterOutlet,
     PoToolbarModule,
     PoMenuModule,
@@ -35,7 +38,6 @@ import {
 export class AppComponent {
 
   isLoading = false; 
-  isHideLoading = false;
 
   public readonly actions: Array<PoPageAction> = [
 
@@ -46,53 +48,16 @@ export class AppComponent {
 
   ];
 
-  constructor(
-    // public appService: AppService,
-    // private router: Router,
-    // private route: ActivatedRoute,
-    // private loadingService: LoadingService
-  ) {
-
+  constructor(private loadingService: LoadingService) {}
+  
+  ngOnInit(): void {
+    setInterval(() => {
+      this.isLoading = this.loadingService.isLoading();
+    }, 100); 
   }
+  
   printMenuAction(menu: PoMenuItem) {
     this.menuItemSelected = menu.label;
   }
-  // public breadcrumb: PoBreadcrumb = {
-  //   items: [{ label: 'Home', link: '/home' }]
-  // };
-
-
-  // ngOnInit(): void {
-  //   // Controle do preloader durante chamadas de API
-  //   this.loadingService.loading$.subscribe((loading: boolean) => {
-  //     this.isLoading = loading;
-  //   });
-
-
-  //   // Controle do preloader durante a navegação
-  //   this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
-  //     this.updateBreadcrumb();
-  //   });
-  // }
-
-  // updateBreadcrumb(): void {
-  //   const currentRoute = this.route.root.firstChild?.snapshot;
-  //   if (currentRoute) {
-  //     const breadcrumbLabel = currentRoute.data.title || 'Home';
-  //     const breadcrumbLink = this.router.url;
-
-  //     this.breadcrumb.items = [
-  //       { label: 'RH', link: '/home' },
-  //       { label: breadcrumbLabel, link: breadcrumbLink }
-  //     ];
-  //   }
-
-  // }
-  // navigateWithPreloader(link: string): void {
-  //   this.isLoading = true; // Ativa o preloader antes da navegação
-  //   this.router.navigate([link]).finally(() => {
-  //     this.isLoading = false; // Garante que o preloader será desativado
-  //   });
-  // }
 
 }

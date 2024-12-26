@@ -87,12 +87,10 @@ export class DashboardComponent {
     this.text = null;
   }
   getMenus() {
-
     this.isLoading = true; // Ativa o preloader
-
-    //alert(this.isLoading)
-    this.dashboardService.getMenus(this.custo, this.codDir, this.codArea, this.codDep, this.codFunc).subscribe(
-      response => {
+  
+    this.dashboardService.getMenus(this.custo, this.codDir, this.codArea, this.codDep, this.codFunc).subscribe({
+      next: (response) => {
         this.selectCusto = response.custos;
         this.selectDepartamentos = response.departamentos;
         this.selectFuncao = response.funcoes;
@@ -101,16 +99,14 @@ export class DashboardComponent {
         this.diretores = response.tabela1;
         this.areas = response.tabela2;
         this.departamentos = response.tabela3;
-
       },
-      error => {
-        console.error('Erro ao obter dados:', error);
-        this.isLoading = false; // Desativa o preloader em caso de erro
+      error: (err) => {
+        console.error('Erro ao obter dados:', err);
+      },
+      complete: () => {
+        this.isLoading = false; // Desativa o preloader
       }
-    );
-    
-    this.isLoading = false; // Desativa o preloader após sucesso
-    //alert(this.isLoading)
+    });
   }
   dataAtual() {
     const today = new Date();

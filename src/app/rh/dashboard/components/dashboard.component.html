@@ -1,4 +1,5 @@
 <div class="sample-container">
+  <po-loading-overlay [p-text]="'Carregando...'" *ngIf="isLoading">Amor</po-loading-overlay>
   <div class="p-container p-4">
     <div class="p-row">
       <po-datepicker class="po-md-2" name="minDate" [(ngModel)]="minDate" p-clean p-label="Data" [p-max-date]="maxDate"
@@ -7,7 +8,7 @@
       </po-datepicker>
       <po-multiselect class="po-md-2" name="custo" p-label="Centro de Custo" [p-options]="selectCusto"
         [(ngModel)]="custo" (ngModelChange)="onCustoChange($event)" (p-change)="changeCusto($event)"
-        [p-filter-mode]="filterMode" [p-hide-select-all]="true">
+        [p-filter-mode]="filterMode" (p-change)="onChangeCheckbox($event)" [p-hide-select-all]="true">
       </po-multiselect>
       <po-multiselect class="po-md-2" name="codDir" p-label="Cod. Dir" [p-options]="selectDiretores"
         [(ngModel)]="codDir" (ngModelChange)="onDiretorChange($event)" (p-change)="changeDiretor($event)"

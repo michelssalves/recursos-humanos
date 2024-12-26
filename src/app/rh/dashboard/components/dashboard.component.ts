@@ -15,6 +15,7 @@ import { DashboardService } from '../services';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
+  isLoading = false; // Controle do preloader
   delta = 0
   ativos = 0
   atestados = 0
@@ -57,6 +58,9 @@ export class DashboardComponent {
   filterMode = PoMultiselectFilterMode.contains;
   //isLoading = false; 
   selectedItems = [];
+  properties: Array<string> = [];
+  text: string;
+  size: string;
 
   constructor(
     private poAlert: PoDialogService,
@@ -71,29 +75,42 @@ export class DashboardComponent {
     this.getMenus()
 
   }
-  searchMore(event: any) {
-    window.open(`http://google.com/search?q=coffee+producing+${event.label}`, '_blank');
+  onChangeCheckbox(checkbox: Array<string>) {
+    if (checkbox.includes('screenLock')) {
+      setTimeout(() => {
+        this.properties = [];
+      }, 2000);
+    }
+  }
+  restore() {
+    this.size = 'lg';
+    this.text = null;
   }
   getMenus() {
+
+    this.isLoading = true; // Ativa o preloader
+
+    //alert(this.isLoading)
     this.dashboardService.getMenus(this.custo, this.codDir, this.codArea, this.codDep, this.codFunc).subscribe(
       response => {
-
         this.selectCusto = response.custos;
         this.selectDepartamentos = response.departamentos;
         this.selectFuncao = response.funcoes;
         this.selectDiretores = response.diretores;
-        this.selectAreas = response.areas;        
+        this.selectAreas = response.areas;
         this.diretores = response.tabela1;
         this.areas = response.tabela2;
         this.departamentos = response.tabela3;
-        //this.funcionarios = response.tabela4;
-        //this.isLoading = false; // Finaliza o preloader
 
       },
       error => {
         console.error('Erro ao obter dados:', error);
+        this.isLoading = false; // Desativa o preloader em caso de erro
       }
     );
+    
+    this.isLoading = false; // Desativa o preloader após sucesso
+    //alert(this.isLoading)
   }
   dataAtual() {
     const today = new Date();
@@ -119,15 +136,12 @@ export class DashboardComponent {
     
   }
   changeCusto(event: any) {
-   // this.isLoading = true;
     this.getMenus()
     if (this.selectedItems.length > 1) {
       this.selectedItems = [this.selectedItems[1]]; // Mantém apenas o último selecionado
-
       
     }
 
-    
     this.getMenus();
   }
   changeDpto(event: any) {

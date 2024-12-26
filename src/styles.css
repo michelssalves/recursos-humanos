@@ -56,3 +56,7 @@ ul {
      margin: 0 auto;
      /* Centraliza a imagem dentro da div */
 }
+.sample-container {
+     position: relative;
+     height: 300px;
+   }

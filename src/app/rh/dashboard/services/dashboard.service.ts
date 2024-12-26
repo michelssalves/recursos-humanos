@@ -8,7 +8,7 @@ import { LoadingService } from './loading.service';
   providedIn: 'root'
 })
 export class DashboardService {
-  private apiUrl2 = 'http://vhwin1065:9323/rest/protheus/12919786000124/v1/head-count-budget/';
+  private apiUrl = 'http://vhwin1065:9323/rest/protheus/12919786000124/v1/head-count-budget/';
 
   constructor(private http: HttpClient, private loadingService: LoadingService) {}
 
@@ -43,12 +43,10 @@ export class DashboardService {
     codDep: Array<any>,
     codFunc: Array<any>
   ): Observable<any> {
-    const url = `${this.apiUrl2}`;
     const body = this.buildRequestBody(codCusto, codDir, codArea, codDep, codFunc);
 
-    this.loadingService.show(); // Ativa o preloader antes da requisição
-
-    return this.http.post<any>(url, body, { headers: this.getHeaders() }).pipe(
+    this.loadingService.show(); // Ativa o preloader
+    return this.http.post<any>(this.apiUrl, body, { headers: this.getHeaders() }).pipe(
       finalize(() => this.loadingService.hide()) // Desativa o preloader após a conclusão
     );
   }

@@ -41,9 +41,10 @@ export class DashboardService {
     codDir: Array<any>,
     codArea: Array<any>,
     codDep: Array<any>,
-    codFunc: Array<any>
+    codFunc: Array<any>,
+    dataIni: string | Date
   ): Observable<any> {
-    const body = this.buildRequestBody(codCusto, codDir, codArea, codDep, codFunc);
+    const body = this.buildRequestBody(codCusto, codDir, codArea, codDep, codFunc, dataIni);
 
     this.loadingService.show(); // Ativa o preloader
     return this.http.post<any>(this.apiUrl, body, { headers: this.getHeaders() }).pipe(

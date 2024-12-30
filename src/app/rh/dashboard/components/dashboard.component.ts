@@ -57,7 +57,11 @@ export class DashboardComponent {
   startDate: string = <any>new Date();
   filterMode = PoMultiselectFilterMode.contains;
   //isLoading = false; 
-  selectedItems = [];
+  selectedCustoItem = [];
+  selectedDirItem = [];
+  selectedAreaItem = [];
+  selectedDptoItem = [];
+  selectedFuncItem = [];
   properties: Array<string> = [];
   text: string;
   size: string;
@@ -89,7 +93,7 @@ export class DashboardComponent {
   getMenus() {
     this.isLoading = true; // Ativa o preloader
   
-    this.dashboardService.getMenus(this.custo, this.codDir, this.codArea, this.codDep, this.codFunc).subscribe({
+    this.dashboardService.getMenus(this.custo, this.codDir, this.codArea, this.codDep, this.codFunc, this.dataIni).subscribe({
       next: (response) => {
         this.selectCusto = response.custos;
         this.selectDepartamentos = response.departamentos;
@@ -133,8 +137,9 @@ export class DashboardComponent {
   }
   changeCusto(event: any) {
     this.getMenus()
-    if (this.selectedItems.length > 1) {
-      this.selectedItems = [this.selectedItems[1]]; // Mantém apenas o último selecionado
+    if (this.selectedCustoItem.length > 1) {
+
+      this.selectedCustoItem = [this.selectedCustoItem[1]]; // Mantém apenas o último selecionado
       
     }
 
@@ -142,16 +147,36 @@ export class DashboardComponent {
   }
   changeDpto(event: any) {
     this.getMenus()
+    if (this.selectedDptoItem.length > 1) {
+      
+      this.selectedDptoItem = [this.selectedDptoItem[1]]; // Mantém apenas o último selecionado
+      
+    }
   }
   changeFuncao(event: any) {
     this.getMenus()
+    if (this.selectedFuncItem.length > 1) {
+      
+      this.selectedFuncItem = [this.selectedFuncItem[1]]; // Mantém apenas o último selecionado
+      
+    }
   
   }
   changeDiretor(event: any) {
     this.getMenus()
+    if (this.selectedDirItem.length > 1) {
+      
+      this.selectedDirItem = [this.selectedDirItem[1]]; // Mantém apenas o último selecionado
+      
+    }
   }
   changeArea(event: any) {
     this.getMenus()
+    if (this.selectedAreaItem.length > 1) {
+      
+      this.selectedAreaItem = [this.selectedAreaItem[1]]; // Mantém apenas o último selecionado
+      
+    }
   }
   onDateChange(value: Date | string) {
     if (typeof value === 'string') {
